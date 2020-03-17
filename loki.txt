@@ -1,0 +1,88 @@
+commit fdbfa4252d67b9378c2e247106e5261b01d2ca0c
+Author: sanikk <sanikk@users.noreply.github.com>
+Date:   Tue Mar 17 21:13:09 2020 +0200
+
+    vika commit
+
+ tiedostoja/file1  | 0
+ tiedostoja/file2  | 0
+ tiedostoja/file22 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 8f129694a00cbbd3d696bb84ec880321db09d1f2
+Author: sanikk <sanikk@users.noreply.github.com>
+Date:   Tue Mar 17 21:10:27 2020 +0200
+
+    tiedostoja
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit adbdacce638cac4728714faf45dd5d1ce08ede94
+Author: sanikk <sanikk@users.noreply.github.com>
+Date:   Tue Mar 17 21:06:47 2020 +0200
+
+    jotain muutoksia
+
+ eka.txt      | 2 ++
+ kolmas.txt   | 2 +-
+ tiedosto.txt | 2 --
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 3f09097fd94dfde3c8b3a822408e99c6d935e1e1
+Author: sanikk <sanikk@users.noreply.github.com>
+Date:   Tue Mar 17 21:04:49 2020 +0200
+
+    toinen.txt poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit bb93dc3a254a9d80e708a704266027684a3669e4
+Author: sanikk <sanikk@users.noreply.github.com>
+Date:   Tue Mar 17 21:02:54 2020 +0200
+
+    hakemisto tehty
+
+ stuff/tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 30ffb4ec551e3834caf4538c7d319679a778351c
+Author: sanikk <sanikk@users.noreply.github.com>
+Date:   Tue Mar 17 21:02:22 2020 +0200
+
+    muutokset toinen ja kolmas.txt
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 2950ea7827d20b54f9433a8e2da9f89e91f3d03e
+Author: sanikk <sanikk@users.noreply.github.com>
+Date:   Tue Mar 17 21:01:18 2020 +0200
+
+    kolmas.txt
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit d0f0705d58db07662a0517c01ee31c25b9a697ca
+Author: sanikk <sanikk@users.noreply.github.com>
+Date:   Tue Mar 17 21:00:01 2020 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 2 ++
+ toinen.txt   | 0
+ 2 files changed, 2 insertions(+)
+
+commit 8373377638030a2e9f4a3c9c64ef919cecef0361
+Author: sanikk <sanikk@users.noreply.github.com>
+Date:   Tue Mar 17 20:58:31 2020 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
