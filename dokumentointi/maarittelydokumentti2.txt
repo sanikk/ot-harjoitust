@@ -1,0 +1,20 @@
+# Määrittelydokumentti
+
+## Sovelluksen tarkoitus
+
+Code snippet manageri hashtageilla, itse määriteltävillä luokilla useille 
+ohjelmointikielille.
+
+## Käyttäjät
+
+Peruskäyttäjä jolla oikeudet lukea,hakea ja tallentaa pätkiä.
+
+## Sovelluksen perustoiminnallisuus
+
+Sovellukseen tulee mahdollisuus valita kieli josta etsitään/johon tallennetaan
+koodinpätkiä, etsintämahdollisuus, yksinkertainen tietokanta.
+
+## Mahdollisia jatkokehitysideoita
+
+Duplikaattien etsintää, historia eri tavoista toteuttaa sama pätkä paremmin
+taitojen karttuessa.

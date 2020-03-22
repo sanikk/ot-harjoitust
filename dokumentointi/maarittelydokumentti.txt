@@ -1,7 +1,16 @@
+
 # Vaatimusmäärittely
 
 ## Sovelluksen tarkoitus
 
+Sovellus on yksinkertainen peli.
+
 ## Käyttäjät
 
-## Suunnitellut toiminnallisuudet
+Kaikki käyttäjät ovat tavallisia käyttäjiä.
+
+## Suunnitellut perustoiminnallisuudet
+
+- 
+- High score lista
+- 
