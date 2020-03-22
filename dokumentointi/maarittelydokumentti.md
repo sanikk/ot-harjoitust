@@ -11,13 +11,16 @@ Peruskäyttäjä jolla oikeudet lukea,hakea ja tallentaa pätkiä.
 
 ## Sovelluksen perustoiminnallisuus
 
-Sovellukseen tulee mahdollisuus valita kieli josta etsitään/johon tallennetaan
-koodinpätkiä, etsintämahdollisuus, yksinkertainen tietokanta. Ensin hotkey
-ja valikkopohjainen toiminnallisuus, sovelluslogiikan toimiessa sitten kevyttä
-GUI viritelmää oheen.
+Sovellukseen tulee 
+* mahdollisuus valita kieli josta etsitään/johon tallennetaan koodinpätkiä
+* etsintämahdollisuus hashtageilla
+* yksinkertainen tietokanta. 
+Ensin hotkeyja valikkopohjainen toiminnallisuus, sovelluslogiikan toimiessa 
+sitten kevyt GUI viritelmä oheen.
 
 ## Mahdollisia jatkokehitysideoita
 
-Duplikaattien etsintää, historia eri tavoista toteuttaa sama toiminnallisuus
-paremmin taitojen karttuessa. Pseudoesitys algosta jonka ohessa linkitetty 
-lista erilaisista toteutuksista.
+* Duplikaattien etsintää
+* historia eri tavoista toteuttaa sama toiminnallisuus paremmin taitojen 
+karttuessa.
+* Pseudoesitys algosta jonka ohessa linkitetty lista erilaisista toteutuksista.
