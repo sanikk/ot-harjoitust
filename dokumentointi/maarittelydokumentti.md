@@ -13,10 +13,10 @@ Peruskäyttäjä jolla oikeudet lukea,hakea ja tallentaa pätkiä.
 
 Sovellukseen tulee 
 * mahdollisuus valita kieli josta etsitään/johon tallennetaan koodinpätkiä
-* etsintämahdollisuus hashtageilla
+* etsintämahdollisuus (ainakin) "hashtageilla"
 * yksinkertainen tietokanta. 
-Ensin hotkeyja valikkopohjainen toiminnallisuus, sovelluslogiikan toimiessa 
-sitten kevyt GUI viritelmä oheen.
+Ensin hotkey- ja valikkopohjainen toiminnallisuus, sovelluslogiikan toimiessa 
+sitten kevyt GUI viritelmä oheen(optional).
 
 ## Mahdollisia jatkokehitysideoita
 
