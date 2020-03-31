@@ -24,6 +24,7 @@ public class TextUI {
         while (running) {
             System.out.println("\nSelected language: " + selectedLanguage.getName());
             listActions();
+            System.out.print("  ");
             int selectedAction = Integer.parseInt(skanner.nextLine());
             switch (selectedAction) {
                 case 1:
@@ -47,15 +48,16 @@ public class TextUI {
             System.out.println("\nPlease choose a language to use:");
 
             for (int j = 0; j < languages.size(); j++) {
+                System.out.print("  ");
                 if (selectedLanguage != null && selectedLanguage == languages.get(j)) {
                     System.out.print("* ");
                 } else {
                     System.out.print("  ");
                 }
-                System.out.println(j + " - " + languages.get(j));
+                System.out.println(j + " - " + languages.get(j).getName());
             }
-            System.out.println(" 99 - Add a new language to the list");
-
+            System.out.println("   99 - Add a new language to the list");
+            System.out.print("  ");
             int luettu = Integer.parseInt(skanner.nextLine());
 
             if (luettu == 99) {
@@ -66,7 +68,7 @@ public class TextUI {
                     continue;
                 }
             }
-            if(luettu > 0 && luettu < languages.size()) {
+            if(luettu >= 0 && luettu < languages.size()) {
                 selectedLanguage = languages.get(luettu);
                 return;
             }
@@ -75,9 +77,9 @@ public class TextUI {
 
     private void listActions() {
         System.out.println("\nChoose an action:");
-        System.out.println("1 - Add a snippet in " + selectedLanguage);
-        System.out.println("99 - Change the current programming language");
-        System.out.println("0 - Exit SnippetManager");
+        System.out.println("   1 - Add a snippet in " + selectedLanguage.getName());
+        System.out.println("  99 - Change the current programming language");
+        System.out.println("   0 - Exit SnippetManager");
     }
 
     private void addNewSnippet() {

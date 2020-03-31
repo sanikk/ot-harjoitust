@@ -36,6 +36,7 @@ public class FileLanguageDao implements LanguageDao {
                     nextId = Integer.parseInt(fileReader.nextLine());
                 } else {
                     System.out.println("Empty file!");
+                    nextId = 0;
                     return;
                 }
                 while (fileReader.hasNextLine()) {
@@ -44,7 +45,7 @@ public class FileLanguageDao implements LanguageDao {
                     languages.add(new Language(sanat[0], Integer.parseInt(sanat[1])));
                 }
             } catch (Exception e) {
-                System.out.println("Error reading file " + e.getMessage());
+                System.out.println("Error reading languages file " + file + ":" + e.getMessage());
             }
         }
     }
@@ -55,7 +56,7 @@ public class FileLanguageDao implements LanguageDao {
             FileWriter saver = new FileWriter(new File(file));
             saver.write(nextId + "\n");
             for (Language language : languages) {
-                saver.write(language.getName() + "," + language.getId() + "\n");
+                saver.write(language + "\n");
             }
             saver.close();
             return true;
@@ -88,7 +89,7 @@ public class FileLanguageDao implements LanguageDao {
         return languages.get(index);
     }
 
-    public int nextId() {
+    public int giveNextId() {
         return nextId;
     }
 

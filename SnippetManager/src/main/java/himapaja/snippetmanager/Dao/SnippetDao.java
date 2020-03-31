@@ -12,6 +12,6 @@ public interface SnippetDao {
     
     List<Snippet> getAll();
     
-    int nextId();
+    int giveNextId();
     
 }

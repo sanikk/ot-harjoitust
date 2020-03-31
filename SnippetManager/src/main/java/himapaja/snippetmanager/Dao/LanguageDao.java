@@ -15,6 +15,6 @@ public interface LanguageDao {
     
     Language getByIndex(int index);
     
-    int nextId();
+    int giveNextId();
     
 }
