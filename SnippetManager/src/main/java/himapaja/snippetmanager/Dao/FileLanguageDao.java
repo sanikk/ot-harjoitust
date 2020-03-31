@@ -15,6 +15,7 @@ public class FileLanguageDao implements LanguageDao {
 
     private List<Language> languages;
     private String file;
+    private int nextId;
 
     public FileLanguageDao(String file) {
         languages = new ArrayList<>();
@@ -22,34 +23,46 @@ public class FileLanguageDao implements LanguageDao {
         load();
     }
 
-    //aluksi vaan jokainen omalla rivillään, id:t tulkoot muuten, se pitää muuttaa kohta
-    //jos kieliä ei poisteta, ikinä, id = indeksi
     private void load() {
-        try {
-            Scanner fileReader = new Scanner(new File(file));
-            while (fileReader.hasNextLine()) {
-                String kieli = fileReader.nextLine();
-                languages.add(new Language(kieli));
-            }
-        } catch (Exception e) {
-            System.out.println("Error reading file " + e.getMessage());
-            System.out.println("Using an empty list of languages.");
-            languages.add(new Language("list of programming languages:"));
-        }
+        File tiedosto = new File(file);
+        if (!tiedosto.exists()) {
+            System.out.println("File not found, creating a new one: " + file);
+            nextId = 0;
 
+        } else {
+            try {
+                Scanner fileReader = new Scanner(new File(file));
+                if(fileReader.hasNextLine()) {
+                    nextId = Integer.parseInt(fileReader.nextLine());
+                } else {
+                    System.out.println("Empty file!");
+                    return;
+                }
+                while (fileReader.hasNextLine()) {
+                    String rivi = fileReader.nextLine();
+                    String[] sanat = rivi.split(",");
+                    languages.add(new Language(sanat[0], Integer.parseInt(sanat[1])));
+                }
+            } catch (Exception e) {
+                System.out.println("Error reading file " + e.getMessage());
+            }
+        }
     }
 
-    private void save() {
+    private boolean save() {
+        //eli tiedoston alkuun tulee nextId arvo, sen jälkeen tallennetut kielet muodossa: nimi,id
         try {
             FileWriter saver = new FileWriter(new File(file));
+            saver.write(nextId + "\n");
             for (Language language : languages) {
-                saver.write(language.getName() + "\n");
+                saver.write(language.getName() + "," + language.getId() + "\n");
             }
             saver.close();
+            return true;
         } catch (Exception e) {
             System.out.println("Error writing to file " + file + ": " + e.getMessage());
+            return false;
         }
-
     }
 
     @Override
@@ -58,14 +71,25 @@ public class FileLanguageDao implements LanguageDao {
     }
 
     @Override
-    public Language create(Language language) {
+    public boolean create(Language language) {
+        language.setId(nextId);
         languages.add(language);
-        save();
-        return language;
+        nextId++;
+        if(save()) {
+            return true;
+        }
+        // tallennus epäonnistui syystä x, poistetaan kaikki muutokset ja palautetaan false
+        nextId--;
+        languages.remove(language);
+        return false;
     }
-    
+
     public Language getByIndex(int index) {
         return languages.get(index);
+    }
+
+    public int nextId() {
+        return nextId;
     }
 
 }

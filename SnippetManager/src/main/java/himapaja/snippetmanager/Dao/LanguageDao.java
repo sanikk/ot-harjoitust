@@ -9,10 +9,12 @@ import java.util.List;
  */
 public interface LanguageDao {
     
-    Language create(Language language) throws Exception;
+    boolean create(Language language) throws Exception;
     
     List<Language> getAll();
     
     Language getByIndex(int index);
+    
+    int nextId();
     
 }

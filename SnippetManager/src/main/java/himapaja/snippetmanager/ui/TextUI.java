@@ -1,44 +1,28 @@
 package himapaja.snippetmanager.ui;
 
-import himapaja.snippetmanager.Dao.FileLanguageDao;
 import himapaja.snippetmanager.domain.Language;
-import himapaja.snippetmanager.domain.LanguageService;
-import java.io.FileInputStream;
+import himapaja.snippetmanager.domain.SnippetManager;
 import java.util.List;
-import java.util.Properties;
 import java.util.Scanner;
 
 public class TextUI {
 
     private Scanner skanner;
-    private LanguageService languageService;
-    private int selectedLanguage = -1;
+    private SnippetManager snippetMan;
+    private Language selectedLanguage;
 
-    public TextUI(Scanner skanner) {
+    public TextUI(Scanner skanner, SnippetManager snippetMan) {
         this.skanner = skanner;
-    }
-
-    public void init() throws Exception {
-        Properties properties = new Properties();
-        properties.load(new FileInputStream("config.properties"));
-
-        String languageFile = properties.getProperty("languageFile");
-        FileLanguageDao languageDao = new FileLanguageDao(languageFile);
-        languageService = new LanguageService(languageDao);
+        this.snippetMan = snippetMan;
     }
 
     public void startUI() {
-        try {
-            init();
-        } catch (Exception e) {
-            System.out.println("Error initializing: " + e.getMessage());
-        }
         boolean running = true;
         System.out.println("\nThis is an ASCII-based UI for (at least) testing purposes"); // FIXME REMOVE THIS LINE
         System.out.println("\nWelcome to the SnippetManager of your dreams.");
-        this.selectedLanguage = selectLanguage();
+        selectLanguage();
         while (running) {
-            System.out.println("\nSelected language: " + languageService.getByIndex(selectedLanguage).getName());
+            System.out.println("\nSelected language: " + selectedLanguage.getName());
             listActions();
             int selectedAction = Integer.parseInt(skanner.nextLine());
             switch (selectedAction) {
@@ -46,7 +30,7 @@ public class TextUI {
                     addNewSnippet();
                     continue;
                 case 99:
-                    selectedLanguage = selectLanguage();
+                    selectLanguage();
                     continue;
                 case 0:
                     System.out.println("Thank you, come again!");
@@ -57,44 +41,41 @@ public class TextUI {
         }
     }
 
-    private int selectLanguage() {
-        
-        
-        
-        Integer palautettava = -1;
-        while (palautettava < 1) {
-            List<Language> languages = languageService.getLanguages();
+    private void selectLanguage() {
+        while (true) {
+            List<Language> languages = snippetMan.getLanguages();
             System.out.println("\nPlease choose a language to use:");
-            
-            for (int j = 1; j < languages.size(); j++) {
-                if (selectedLanguage == j) {
+
+            for (int j = 0; j < languages.size(); j++) {
+                if (selectedLanguage != null && selectedLanguage == languages.get(j)) {
                     System.out.print("* ");
                 } else {
                     System.out.print("  ");
                 }
-                System.out.println(j + " - " + languages.get(j).getName());
+                System.out.println(j + " - " + languages.get(j));
             }
-            System.out.println("  0 - Add a new language to the list");
+            System.out.println(" 99 - Add a new language to the list");
 
-            palautettava = Integer.parseInt(skanner.nextLine());
+            int luettu = Integer.parseInt(skanner.nextLine());
 
-            // FIXME replace with languageDAO stuff
-            if (palautettava == 0) {
+            if (luettu == 99) {
                 System.out.print("What's the name of the language to add? ");
                 String newLanguage = skanner.nextLine();
                 if (newLanguage != null && !newLanguage.isEmpty()) {
-                    languageService.createLanguage(newLanguage);
+                    snippetMan.createLanguage(newLanguage);
+                    continue;
                 }
-            } else if(palautettava >= languages.size()) {
-                palautettava = -1;
+            }
+            if(luettu > 0 && luettu < languages.size()) {
+                selectedLanguage = languages.get(luettu);
+                return;
             }
         }
-        return (int) palautettava;
     }
 
     private void listActions() {
         System.out.println("\nChoose an action:");
-        System.out.println("1 - Add a snippet in " + languageService.getByIndex(selectedLanguage).getName());
+        System.out.println("1 - Add a snippet in " + selectedLanguage);
         System.out.println("99 - Change the current programming language");
         System.out.println("0 - Exit SnippetManager");
     }

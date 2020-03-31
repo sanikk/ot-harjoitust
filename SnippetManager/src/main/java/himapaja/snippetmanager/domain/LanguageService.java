@@ -17,7 +17,7 @@ public class LanguageService {
     }
     
     public boolean createLanguage(String name) {
-        Language language = new Language(name);
+        Language language = new Language(name, languageDao.nextId());
         try {
             languageDao.create(language);
         } catch (Exception e) {

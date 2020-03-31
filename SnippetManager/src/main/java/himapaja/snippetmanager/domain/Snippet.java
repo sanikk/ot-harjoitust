@@ -29,7 +29,7 @@ public class Snippet {
         }
     }
     
-    public boolean rmHashtag(String hashtag) { //jää turhaks kohta
+    public boolean removeHashtag(String hashtag) { //jää turhaks kohta
         return hashtags.remove(hashtag);
     }
 

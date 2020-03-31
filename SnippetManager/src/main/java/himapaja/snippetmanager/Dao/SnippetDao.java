@@ -8,8 +8,10 @@ import java.util.List;
  */
 public interface SnippetDao {
     
-    Snippet create(Snippet snippet) throws Exception;
+    boolean create(Snippet snippet) throws Exception;
     
     List<Snippet> getAll();
+    
+    int nextId();
     
 }
