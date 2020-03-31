@@ -47,7 +47,7 @@ Kattavuusraporttia voi tarkastella selaimella avaamalla sillä tiedoston target/
 
 mvn package
 
-Luo jar-tiedoston tavalliseen paikkaan.
+generoi hakemistoon target suoritettavan jar-tiedoston SnippetManager-1.0-SNAPSHOT.jar
 
 ### JavaDoc
 
