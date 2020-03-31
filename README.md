@@ -20,7 +20,7 @@ pitäisi toimia.
 
 ### Releaset
 
-Tässähän tämä on.
+Tässähän tämä on, v 0.1 !
 
 ## Komentorivitoiminnot
 
@@ -45,7 +45,9 @@ Kattavuusraporttia voi tarkastella selaimella avaamalla sillä tiedoston target/
 
 ### Suoritettavan jarin generointi
 
-En ole vielä kokeillut.
+mvn package
+
+Luo jar-tiedoston tavalliseen paikkaan.
 
 ### JavaDoc
 
