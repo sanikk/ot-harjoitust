@@ -2,16 +2,23 @@ package himapaja.snippetmanager.Dao;
 
 import himapaja.snippetmanager.domain.Snippet;
 import java.util.List;
+
 /**
  *
  * @author Samuli Nikkilä
  */
 public interface SnippetDao {
-    
-    boolean create(Snippet snippet) throws Exception;
-    
+
+    boolean create(Snippet snippet);
+
     List<Snippet> getAll();
     
-    int giveNextId();
+    List<Snippet> getAll(int languageId);
+
+    //int giveNextId(); //tätä ei varmaan tartte, käytetään vain daon sisällä
     
+    boolean update(Snippet snippet);
+    
+    boolean delete(Snippet snippet);
+
 }

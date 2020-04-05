@@ -17,4 +17,6 @@ public interface LanguageDao {
     
     int giveNextId();
     
+    String idToString(int id);
+    
 }

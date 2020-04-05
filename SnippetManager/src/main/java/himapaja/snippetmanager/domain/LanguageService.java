@@ -34,5 +34,9 @@ public class LanguageService {
         return languageDao.getByIndex(index);
     }
     
+    public String idToString(int id) {
+        return languageDao.idToString(id);
+    }
+    
     
 }

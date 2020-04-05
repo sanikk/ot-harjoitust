@@ -88,6 +88,15 @@ public class FileLanguageDao implements LanguageDao {
     public Language getByIndex(int index) {
         return languages.get(index);
     }
+    
+    public String idToString(int id) {
+        for(Language language : languages) {
+            if(language.getId() == id) {
+                return language.getName();
+            }
+        }
+        return "";
+    }
 
     public int giveNextId() {
         return nextId;

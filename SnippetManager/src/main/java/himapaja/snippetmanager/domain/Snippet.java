@@ -6,9 +6,11 @@ import java.util.List;
 public class Snippet {
 
     private int id;
+    private int languageId;
     private String name;
     private String code;
     private List<String> hashtags;
+    private String language;
 
     public Snippet() {
         this.name = "";
@@ -16,17 +18,27 @@ public class Snippet {
         this.hashtags = new ArrayList<>();
     }
 
-    public Snippet(String name, String code) {
+    public Snippet(int languageId, String name, String code) {
+        this.languageId = languageId;
         this.name = name;
         this.code = code;
         this.hashtags = new ArrayList<>();
     }
 
-    public Snippet(int id, String name, String code) {
+    public Snippet(int id, int languageId, String name, String code) {
         this.id = id;
+        this.languageId = languageId;
         this.name = name;
         this.code = code;
         this.hashtags = new ArrayList<>();
+    }
+
+    public Snippet(int id, int languageId,String name, String code, List<String> tagit) {
+        this.id = id;
+        this.languageId = languageId;
+        this.name = name;
+        this.code = code;
+        this.hashtags = tagit;
     }
 
     public int getId() {
@@ -53,6 +65,22 @@ public class Snippet {
         this.name = name;
     }
 
+    public int getLanguageId() {
+        return this.languageId;
+    }
+
+    public void setLanguageId(int languageId) {
+        this.languageId = languageId;
+    }
+    
+    public String getLanguage() {
+        return this.language;
+    }
+    
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
     public boolean addHashtag(String hashtag) {
         if (!this.hashtags.contains(hashtag)) {
             this.hashtags.add(hashtag);
@@ -66,11 +94,16 @@ public class Snippet {
     }
 
     public String toString() {
-        return this.id + "," + this.name + "," + this.code;
+        return "Name: " + this.name + "\n     Code: " + this.code;
     }
     
+    //for textUI
+    public String longString() {
+        return this.language + "," + this.name + "," + this.code;
+    }
+
     public String data() {
-        return this.id + "-,-" + this.name + "-,-" + this.code;
+        return this.id + "-,-" + this.languageId + "-,-" + this.name + "-,-" + this.code;
     }
 
 }

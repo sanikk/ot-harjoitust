@@ -45,7 +45,9 @@ Kattavuusraporttia voi tarkastella selaimella avaamalla sillä tiedoston target/
 
 ### Suoritettavan jarin generointi
 
-En ole vielä kokeillut.
+mvn package
+
+Luo jar paketin tavalliseen paikkaan.
 
 ### JavaDoc
 

@@ -1,9 +1,5 @@
 package himapaja.snippetmanager;
 
-import himapaja.snippetmanager.Dao.FileLanguageDao;
-import himapaja.snippetmanager.Dao.FileSnippetDao;
-import himapaja.snippetmanager.domain.Language;
-import himapaja.snippetmanager.domain.Snippet;
 import himapaja.snippetmanager.domain.SnippetManager;
 import himapaja.snippetmanager.ui.TextUI;
 import java.util.Scanner;
@@ -18,6 +14,7 @@ public class SnippetManagerApp {
         Scanner skanner = new Scanner(System.in);
         SnippetManager snippetman = new SnippetManager();
         TextUI kayttis = new TextUI(skanner, snippetman);
+        //TestiUI kayttis = new TestiUI(skanner, snippetman);
         kayttis.startUI();
     }
 
