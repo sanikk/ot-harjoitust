@@ -23,6 +23,11 @@ Tällä hetkellä pelkkä tekstikäyttöliittymä TextUI, joka jätetään cli-v
 SnippetManager huolehtii kaikesta sovelluslogiikasta. Sillä on myös tiedot
 kaikista palveluista.
 
+### Luokat
+
+Snippet on tietysti snippettien ilmentymä, Language ohjelmointikielten. Tagit on toistaiseksi toteutettu Stringeinä,
+mutta teen niille vielä oman luokan nopeuttamaan hakua tagien perusteella.
+
 ### Palvelukerros
 
 On ohjelmassa puhtaasti laajennettavuuden kannalta. Toistaiseksi hieman turha
