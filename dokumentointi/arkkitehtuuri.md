@@ -32,3 +32,5 @@ abstraktiokerros, samat voisi hoitaa ylempänä/alempana.
 
 Eri daot huolehtivat eri tallennusmuodoista. Valmiina tällä hetkellä 
 tiedostoon tallennus, teen vielä yhden sqlDao version.
+
+[takaisin README:hin](https://github.com/sanikk/ot-harjoitust/blob/master/README.md)
