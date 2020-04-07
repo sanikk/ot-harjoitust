@@ -38,6 +38,6 @@ public class SnippetTest {
      @Test
      public void snippetDataOutputCorrect() {
          Snippet tester = new Snippet(3, 256, "testing", "best code ever");
-         assertEquals("3-,-256-,-testing-,-best code ever", tester.data());
+         assertEquals("3-,-256-,-testing-,-best code ever-,-[]", tester.data());
      }
 }

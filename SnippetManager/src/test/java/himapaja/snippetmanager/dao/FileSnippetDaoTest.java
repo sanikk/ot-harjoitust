@@ -56,7 +56,7 @@ public class FileSnippetDaoTest {
         fileSnippetDao.create(new Snippet(1024, "testisnippet", "leikkikoodi-on-tässä"));
         Scanner tiedostonlukija = new Scanner(new File("testitiedosto.txt"));
         assertEquals("1", tiedostonlukija.nextLine());
-        assertEquals("0-,-1024-,-testisnippet-,-leikkikoodi-on-tässä", tiedostonlukija.nextLine());
+        assertEquals("0-,-1024-,-testisnippet-,-leikkikoodi-on-tässä-,-[]", tiedostonlukija.nextLine());
         assertTrue(!tiedostonlukija.hasNext());
     }
 
@@ -68,7 +68,7 @@ public class FileSnippetDaoTest {
         Scanner tiedostonlukija = new Scanner(new File(file));
         assertEquals("10", tiedostonlukija.nextLine());
         for (int i = 1; i < 11; i++) {
-            String haetaan = (i - 1) + "-,-1024-,-testisnippet" + i + "-,-" + "leikkikoodi-on-tässä";
+            String haetaan = (i - 1) + "-,-1024-,-testisnippet" + i + "-,-leikkikoodi-on-tässä-,-[]";
             assertEquals(haetaan, tiedostonlukija.nextLine());
         }
         assertTrue(!tiedostonlukija.hasNext());
