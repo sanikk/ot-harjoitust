@@ -8,7 +8,7 @@
  * 4.4.  5   Snippetit, yleistä säätöä
  * 7.4.  8   sql pohjat, snippettejä, filedao kuntoon, sqldao aloitus
  * 7.4.  1   yleistä ylläpitoa, dokumentaatio kuntoon
- TODO
+ ### TODO
  * checkstyle
  * parempi luokkakaavio
  * sqldao
