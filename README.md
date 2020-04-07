@@ -41,7 +41,7 @@ Testikattavuusraportti luodaan komennolla
 
 mvn test jacoco:report
 
-Kattavuusraporttia voi tarkastella selaimella avaamalla sillä tiedoston target/site/jacoco/index.html . Toistaiseksi kattavuus on aika pieni, testaan vain oleellisimmat asiat.
+Kattavuusraporttia voi tarkastella selaimella avaamalla sillä tiedoston target/site/jacoco/index.html . Toistaiseksi kattavuus on aika pieni, testaan vain oleellisimmat asiat. Rivikattavuus ilman käyttöliittymää on nyt 22%.
 
 ### Suoritettavan jarin generointi
 
