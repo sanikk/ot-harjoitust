@@ -14,7 +14,7 @@ pitäisi toimia.
 
 * Käyttöohje (ei ole)
 * [määrittelydokumentti](https://github.com/sanikk/ot-harjoitust/dokumentointi/maarittelydokumentti.md)
-* Arkkitehtuurikuvaus (ei ole)
+* [Arkkitehtuurikuvaus](https://github.com/sanikk/ot-harjoitust/dokumentointi/arkkitehtuuri.md)
 * Testausdokumentti (ei ole)
 * [työaikakirjanpito](https://github.com/sanikk/ot-harjoitust/dokumentointi/tuntikirjanpito.md)
 
