@@ -13,10 +13,10 @@ pitäisi toimia.
 ### Dokumentaatio
 
 * Käyttöohje (ei ole)
-* [määrittelydokumentti](https://github.com/sanikk/ot-harjoitust/dokumentointi/maarittelydokumentti.md)
-* [Arkkitehtuurikuvaus](https://github.com/sanikk/ot-harjoitust/dokumentointi/arkkitehtuuri.md)
+* [määrittelydokumentti](https://github.com/sanikk/ot-harjoitust/blob/master/dokumentointi/maarittelydokumentti.md)
+* [Arkkitehtuurikuvaus](https://github.com/sanikk/ot-harjoitust/blob/master/dokumentointi/arkkitehtuuri.md)
 * Testausdokumentti (ei ole)
-* [työaikakirjanpito](https://github.com/sanikk/ot-harjoitust/dokumentointi/tuntikirjanpito.md)
+* [työaikakirjanpito](https://github.com/sanikk/ot-harjoitust/blob/master/dokumentointi/tuntikirjanpito.md)
 
 ### Releaset
 
