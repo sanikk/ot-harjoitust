@@ -43,7 +43,15 @@ public class FileSnippetDao implements SnippetDao {
                 while (fileReader.hasNextLine()) {
                     String rivi = fileReader.nextLine();
                     String[] sanat = rivi.split("-,-");
-                    snippets.add(new Snippet(Integer.parseInt(sanat[0]), Integer.parseInt(sanat[1]), sanat[2], sanat[3]));
+                    Snippet uusi = new Snippet(Integer.parseInt(sanat[0]), Integer.parseInt(sanat[1]), sanat[2], sanat[3]);
+                    snippets.add(uusi);
+                    List<String> tags = uusi.getTags();
+                    String[] palat = sanat[4]
+                            .substring(1, sanat[4].length() - 1)
+                            .split(", ");
+                    for (int i = 0; i < palat.length; i++) {
+                        tags.add(palat[i]);
+                    }
                 }
             } catch (Exception e) {
                 System.out.println("Error reading snippets file " + file + ":" + e.getMessage());
@@ -66,6 +74,40 @@ public class FileSnippetDao implements SnippetDao {
             return false;
         }
     }
+    
+    // ETSINTÄ
+    
+    public Snippet findById(int id) {
+        for(Snippet snippet: snippets) {
+            if(snippet.getId() == id) {
+                return snippet;
+            }
+        }
+        return null;
+    }
+    
+    public Snippet getByName(String name) {
+        for(Snippet snippet : snippets) {
+            if(snippet.getName() == name) {
+                return snippet;
+            }
+        }
+        return null;
+    }
+    
+    public List<Snippet> findByTag(String tag) {
+        List<Snippet> palautettava = new ArrayList<>();
+        for(Snippet snippet : snippets) {
+            List<String> tags = snippet.getTags();
+            for(String tagInSnippet : tags) {
+                if(tagInSnippet.equals(tag)) {
+                    palautettava.add(snippet);
+                }
+            }
+        }
+        return palautettava;
+    }
+    
 
     // LISTAT
     public List<Snippet> getAll() {

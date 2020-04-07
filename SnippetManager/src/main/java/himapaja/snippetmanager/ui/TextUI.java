@@ -100,14 +100,24 @@ public class TextUI {
         Snippet uusi = snippetMan.createSnippet(desc, code);
 
         //JATKA TÄSTÄ TÄGEILLÄ
-        //System.out.println("Please give tags to make your code easier to find. Separate them by line changes. Empty line quits");
+        System.out.println("Please give tags to make your code easier to find. Separate them by line changes. Empty line quits");
+        List<String> lista = uusi.getTags();
+        while(true) {
+            String tagi = skanner.nextLine();
+            if(tagi.equals("")) {
+                break;
+            }
+            lista.add(tagi);
+        }
+        snippetMan.updateSnippet(uusi);
     }
 
     private void listSnippetsInLanguage() {
         System.out.println("\nHere are the snippets in " + snippetMan.getLanguage());
         List<Snippet> lista = snippetMan.getSnippetList();
         for (int i = 0; i < lista.size(); i++) {
-            System.out.println(String.format("%3.3s", i) + ". " + lista.get(i) + "\n");
+            System.out.println(String.format("%3.3s", i) + ". " + lista.get(i));
+            System.out.println("     Tags: " + lista.get(i).printTags() + "\n");
         }
         chooseASnippetFromList(lista);
     }
@@ -116,7 +126,8 @@ public class TextUI {
         System.out.println("\nHere are all saved snippets:\n");
         List<Snippet> lista = snippetMan.getSnippetLongList();
         for (int i = 0; i < lista.size(); i++) {
-            System.out.println(String.format("%3.3s", i) + ". " + lista.get(i).longString() + "\n");
+            System.out.println(String.format("%3.3s", i) + ". " + lista.get(i).longString());
+            System.out.println("     Tags: " + lista.get(i).printTags() + "\n");
         }
         chooseASnippetFromList(lista);
     }
@@ -144,10 +155,9 @@ public class TextUI {
         System.out.println(" 1 - Name: " + valittu.getName());
         System.out.println(" 2 - Language: " + valittu.getLanguage());
         System.out.println(" 3 - Code: " + valittu.getCode());
-        System.out.print(" 4 - Tags: ");
-        //tähän for luuppi
-
-        // luupin jälkeen
+        
+        System.out.print(" 4 - Tags: " + valittu.printTags());
+        
         System.out.println("\n99 - delete entry");
         int valinta = -1;
         while (true) {

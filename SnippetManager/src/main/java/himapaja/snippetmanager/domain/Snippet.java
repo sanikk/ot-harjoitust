@@ -9,20 +9,20 @@ public class Snippet {
     private int languageId;
     private String name;
     private String code;
-    private List<String> hashtags;
+    private List<String> tags;
     private String language;
 
     public Snippet() {
         this.name = "";
         this.code = "";
-        this.hashtags = new ArrayList<>();
+        this.tags = new ArrayList<>();
     }
 
     public Snippet(int languageId, String name, String code) {
         this.languageId = languageId;
         this.name = name;
         this.code = code;
-        this.hashtags = new ArrayList<>();
+        this.tags = new ArrayList<>();
     }
 
     public Snippet(int id, int languageId, String name, String code) {
@@ -30,15 +30,23 @@ public class Snippet {
         this.languageId = languageId;
         this.name = name;
         this.code = code;
-        this.hashtags = new ArrayList<>();
+        this.tags = new ArrayList<>();
     }
 
-    public Snippet(int id, int languageId,String name, String code, List<String> tagit) {
+    public Snippet(int id, int languageId, String name, String code, List<String> tagit) {
         this.id = id;
         this.languageId = languageId;
         this.name = name;
         this.code = code;
-        this.hashtags = tagit;
+        this.tags = tagit;
+    }
+
+    public Snippet(int languageId, String name, String code, List<String> tagit) {
+        this.id = id;
+        this.languageId = languageId;
+        this.name = name;
+        this.code = code;
+        this.tags = tagit;
     }
 
     public int getId() {
@@ -72,38 +80,51 @@ public class Snippet {
     public void setLanguageId(int languageId) {
         this.languageId = languageId;
     }
-    
+
     public String getLanguage() {
         return this.language;
     }
-    
+
     public void setLanguage(String language) {
         this.language = language;
     }
 
-    public boolean addHashtag(String hashtag) {
-        if (!this.hashtags.contains(hashtag)) {
-            this.hashtags.add(hashtag);
+    public boolean addTag(String hashtag) {
+        if (!this.tags.contains(hashtag)) {
+            this.tags.add(hashtag);
             return true;
         }
         return false;
     }
 
-    public boolean removeHashtag(String hashtag) { //jää turhaks kohta
-        return hashtags.remove(hashtag);
+    public boolean removeTag(String hashtag) { //jää turhaks kohta
+        return tags.remove(hashtag);
+    }
+
+    public void setTags(List<String> tagit) {
+        this.tags = tagit;
+    }
+
+    public List<String> getTags() {
+        return this.tags;
     }
 
     public String toString() {
         return "Name: " + this.name + "\n     Code: " + this.code;
     }
-    
+
     //for textUI
     public String longString() {
         return this.language + "," + this.name + "," + this.code;
     }
 
     public String data() {
-        return this.id + "-,-" + this.languageId + "-,-" + this.name + "-,-" + this.code;
+        return this.id + "-,-" + this.languageId + "-,-" + this.name + "-,-" + this.code + "-,-" + this.tags.toString();
+    }
+    
+    public String printTags() {
+        String tuloste = this.tags.toString();
+        return tuloste.substring(1, tuloste.length() - 1);
     }
 
 }

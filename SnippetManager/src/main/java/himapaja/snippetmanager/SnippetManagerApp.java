@@ -1,6 +1,7 @@
 package himapaja.snippetmanager;
 
 import himapaja.snippetmanager.domain.SnippetManager;
+import himapaja.snippetmanager.ui.TestiUI;
 import himapaja.snippetmanager.ui.TextUI;
 import java.util.Scanner;
 

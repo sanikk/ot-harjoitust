@@ -36,8 +36,8 @@ public class SnippetTest {
     // The methods must be annotated with annotation @Test. For example:
     //
      @Test
-     public void snippetDataOutputRight() {
-         Snippet tester = new Snippet(3, "testing", "best code ever");
-         assertEquals("3-,-testing-,-best code ever", tester.data());
+     public void snippetDataOutputCorrect() {
+         Snippet tester = new Snippet(3, 256, "testing", "best code ever");
+         assertEquals("3-,-256-,-testing-,-best code ever", tester.data());
      }
 }

@@ -23,6 +23,11 @@ public class SnippetService {
         snippetDao.create(uusi);
         return uusi;
     }
+    public Snippet createSnippet(int languageId, String name, String code, List<String> tags) {
+        Snippet uusi = new Snippet(languageId, name, code, tags);
+        snippetDao.create(uusi);
+        return uusi;
+    }
 
     public List<Snippet> getAll(int languageId) {
         return snippetDao.getAll(languageId);
@@ -38,5 +43,22 @@ public class SnippetService {
     
     public boolean deleteSnippet(Snippet snippet) {
         return snippetDao.delete(snippet);
+    }
+    
+    public Snippet getById(int id) {
+        return snippetDao.findById(id);
+    }
+    
+    //tähän vielä partial matchit findiks
+    public Snippet getByName(String name) {
+        return snippetDao.getByName(name);
+    }
+    
+    public List<Snippet> findByTag(String tag) {
+        return snippetDao.findByTag(tag);
+    }
+    
+    public boolean updateSnippet(Snippet snippet) {
+        return snippetDao.update(snippet);
     }
 }

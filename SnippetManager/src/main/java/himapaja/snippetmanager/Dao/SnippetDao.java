@@ -14,6 +14,12 @@ public interface SnippetDao {
     List<Snippet> getAll();
     
     List<Snippet> getAll(int languageId);
+    
+    Snippet findById(int id);
+    
+    Snippet getByName(String name);
+    
+    List<Snippet> findByTag(String tag);
 
     //int giveNextId(); //tätä ei varmaan tartte, käytetään vain daon sisällä
     

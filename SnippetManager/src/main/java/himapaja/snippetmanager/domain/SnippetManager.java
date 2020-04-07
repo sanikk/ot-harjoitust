@@ -79,7 +79,27 @@ public class SnippetManager {
         return snippetService.createSnippet(selected.getId(), name, code);
     }
     
+    public Snippet createSnippet(String name, String code, List<String> tags) {
+        return snippetService.createSnippet(selected.getId(), name, code, tags);
+    }
+    
     public boolean deleteSnippet(Snippet snippet) {
         return snippetService.deleteSnippet(snippet);
+    }
+    
+    public boolean updateSnippet(Snippet snippet) {
+        return snippetService.updateSnippet(snippet);
+    }
+    
+    public Snippet getById(int id) {
+        return snippetService.getById(id);
+    }
+    
+    public Snippet getByName(String name) {
+        return snippetService.getByName(name);
+    }
+    
+    public List<Snippet> findByTag(String tag) {
+        return snippetService.findByTag(tag);
     }
 }
