@@ -25,3 +25,5 @@ sitten kevyt GUI viritelmä oheen(optional).
 * historia eri tavoista toteuttaa sama toiminnallisuus paremmin taitojen 
 karttuessa.
 * Pseudoesitys algosta jonka ohessa linkitetty lista erilaisista toteutuksista.
+
+[takaisin README:hin](https://github.com/sanikk/ot-harjoitust/blob/master/README.md)
