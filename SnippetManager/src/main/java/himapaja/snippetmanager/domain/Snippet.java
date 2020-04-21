@@ -1,6 +1,7 @@
 package himapaja.snippetmanager.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Snippet {
@@ -12,6 +13,8 @@ public class Snippet {
     private List<String> tags;
     private String language;
 
+    
+    // KONSTRUKTOREJA LIIKAA, POISTA EKSTRAT
     public Snippet() {
         this.name = "";
         this.code = "";
@@ -32,6 +35,7 @@ public class Snippet {
         this.code = code;
         this.tags = new ArrayList<>();
     }
+
     public Snippet(int id, int languageId, String language, String name, String code) {
         this.id = id;
         this.languageId = languageId;
@@ -55,6 +59,18 @@ public class Snippet {
         this.name = name;
         this.code = code;
         this.tags = tagit;
+    }
+
+    //checkstyle tyytyväiseksi niin pistän filedao:n purkamiset tähän £€@€@‚£$‚
+    public Snippet(String rivi, LanguageService ls) throws Exception {
+        String[] sanat = rivi.split("-,-");
+        this.id = Integer.parseInt(sanat[0]);
+        this.languageId = Integer.parseInt(sanat[1]);
+        this.language = ls.idToString(languageId);
+        this.name = sanat[3];
+        this.tags = new ArrayList<>();
+        String[] palat = sanat[4].substring(1, sanat[4].length() - 1).split(", ");
+        tags.addAll(Arrays.asList(palat));
     }
 
     public int getId() {
@@ -121,7 +137,7 @@ public class Snippet {
     public String textUIString() {
         return "Name: " + this.name + "\n     Code: " + this.code;
     }
-    
+
     public String toString() {
         return "Id: " + id + ", name: " + name + ", language: " + language + "(id:" + languageId + "), code: " + code;
     }
@@ -135,7 +151,7 @@ public class Snippet {
     public String data() {
         return this.id + "-,-" + this.languageId + "-,-" + this.name + "-,-" + this.code + "-,-" + this.tags.toString();
     }
-    
+
     public String printTags() {
         String tuloste = this.tags.toString();
         return tuloste.substring(1, tuloste.length() - 1);

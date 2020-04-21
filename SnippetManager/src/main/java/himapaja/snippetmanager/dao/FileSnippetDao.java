@@ -1,7 +1,9 @@
-package himapaja.snippetmanager.Dao;
+package himapaja.snippetmanager.dao;
 
+import himapaja.snippetmanager.domain.LanguageService;
 import himapaja.snippetmanager.domain.Snippet;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,50 +15,43 @@ import java.util.Scanner;
  */
 public class FileSnippetDao implements SnippetDao {
 
-    private List<Snippet> snippets;
-    private String file;
+    private final List<Snippet> snippets;
+    private final String file;
+    private final File tiedosto;
     private int nextId;
+    private LanguageService ls;
 
-    public FileSnippetDao(String file) {
+    public FileSnippetDao(String file, LanguageService ls) {
         this.snippets = new ArrayList<>();
         this.file = file;
+        this.tiedosto = new File(file);
+        this.ls = ls;
         load();
     }
 
-    // LUKU/KIRJOITUS
-    public void load() {
-        File tiedosto = new File(file);
+    private void load() {
         if (!tiedosto.exists()) {
-            System.out.println("File not found, creating a new one: " + file);
-            nextId = 0;
-
+            loadError();
         } else {
             try {
-                Scanner fileReader = new Scanner(new File(file));
-                if (fileReader.hasNextLine()) {
+                Scanner fileReader = new Scanner(tiedosto);
+                if (!fileReader.hasNextLine()) {
+                    loadError();
+                } else {  // kaikki ok, luetaan
                     nextId = Integer.parseInt(fileReader.nextLine());
-                } else {
-                    System.out.println("Error reading snippet file " + file + ": Empty file!");
-                    nextId = 0;
-                    return;
-                }
-                while (fileReader.hasNextLine()) {
-                    String rivi = fileReader.nextLine();
-                    String[] sanat = rivi.split("-,-");
-                    Snippet uusi = new Snippet(Integer.parseInt(sanat[0]), Integer.parseInt(sanat[1]), sanat[2], sanat[3]);
-                    snippets.add(uusi);
-                    List<String> tags = uusi.getTags();
-                    String[] palat = sanat[4]
-                            .substring(1, sanat[4].length() - 1)
-                            .split(", ");
-                    for (int i = 0; i < palat.length; i++) {
-                        tags.add(palat[i]);
+                    while (fileReader.hasNextLine()) {
+                        snippets.add(new Snippet(fileReader.nextLine(), ls));
                     }
                 }
-            } catch (Exception e) {
+            } catch (FileNotFoundException | NumberFormatException e) {
                 System.out.println("Error reading snippets file " + file + ":" + e.getMessage());
             }
         }
+    }
+
+    private void loadError() {
+        System.out.println("File not found or empty, creating a new one on save: " + file);
+        nextId = 0;
     }
 
     public boolean save() {
@@ -74,46 +69,49 @@ public class FileSnippetDao implements SnippetDao {
             return false;
         }
     }
-    
+
     // ETSINTÄ
-    
+    @Override
     public Snippet getById(int id) {
-        for(Snippet snippet: snippets) {
-            if(snippet.getId() == id) {
+        for (Snippet snippet : snippets) {
+            if (snippet.getId() == id) {
                 return snippet;
             }
         }
         return null;
     }
-    
+
+    @Override
     public Snippet getByName(String name) {
-        for(Snippet snippet : snippets) {
-            if(snippet.getName() == name) {
+        for (Snippet snippet : snippets) {
+            if (snippet.getName().equals(name)) {
                 return snippet;
             }
         }
         return null;
     }
-    
+
+    @Override
     public List<Snippet> findByTag(String tag) {
         List<Snippet> palautettava = new ArrayList<>();
-        for(Snippet snippet : snippets) {
+        for (Snippet snippet : snippets) {
             List<String> tags = snippet.getTags();
-            for(String tagInSnippet : tags) {
-                if(tagInSnippet.equals(tag)) {
+            for (String tagInSnippet : tags) {
+                if (tagInSnippet.equals(tag)) {
                     palautettava.add(snippet);
                 }
             }
         }
         return palautettava;
     }
-    
 
     // LISTAT
+    @Override
     public List<Snippet> getAll() {
         return this.snippets;
     }
 
+    @Override
     public List<Snippet> getAll(int id) {
         List<Snippet> palautettava = new ArrayList<>();
         for (Snippet snippet : snippets) {
@@ -125,11 +123,13 @@ public class FileSnippetDao implements SnippetDao {
     }
 
     // UPDATE hoituukin viitteillä jo aiemmin ja savella. Ottaa input koska: SnippetDao
+    @Override
     public boolean update(Snippet snippet) {
         return this.save();
     }
 
     //DELETE
+    @Override
     public boolean delete(Snippet snippet) {
         if (snippets.remove(snippet)) {
             return save();
@@ -139,6 +139,7 @@ public class FileSnippetDao implements SnippetDao {
     }
 
     // CREATE JA ID
+    @Override
     public boolean create(Snippet snippet) {
         snippet.setId(nextId);
         snippets.add(snippet);

@@ -10,11 +10,10 @@ import java.util.Scanner;
  *
  * @author Samuli Nikkilä
  */
-
 public class TextUI {
 
-    private Scanner skanner;
-    private SnippetManager snippetMan;
+    private final Scanner skanner;
+    private final SnippetManager snippetMan;
 
     public TextUI(Scanner skanner, SnippetManager snippetMan) {
         this.skanner = skanner;
@@ -106,9 +105,9 @@ public class TextUI {
         //JATKA TÄSTÄ TÄGEILLÄ
         System.out.println("Please give tags to make your code easier to find. Separate them by line changes. Empty line quits");
         List<String> lista = uusi.getTags();
-        while(true) {
+        while (true) {
             String tagi = skanner.nextLine();
-            if(tagi.equals("")) {
+            if (tagi.equals("")) {
                 break;
             }
             lista.add(tagi);
@@ -146,27 +145,30 @@ public class TextUI {
             }
             try {
                 valittu = lista.get(Integer.parseInt(jatko));
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Virheellinen numerosyöte!");
             }
         }
-        oneSnippetView(valittu, lista);
+        oneSnippetView(valittu);
+        oneSnippetMenu(valittu, lista);
     }
 
-    // tämä vielä paloiksi niin saa jotain selkoa.
-    public void oneSnippetView(Snippet valittu, List<Snippet> lista) {
-        String jatko = "";
+    public void oneSnippetView(Snippet valittu) {
+        
         System.out.println(" 1 - Name: " + valittu.getName());
         System.out.println(" 2 - Language: " + valittu.getLanguage());
         System.out.println(" 3 - Code: " + valittu.getCode());
-        
+
         System.out.print(" 4 - Tags: " + valittu.printTags());
-        
+
         System.out.println("\n99 - delete entry");
+    }
+
+    public void oneSnippetMenu(Snippet valittu, List<Snippet> lista) {
         int valinta = -1;
         while (true) {
             System.out.println("\nChoose a number or press enter to return to main menu:");
-            jatko = skanner.nextLine();
+            String jatko = skanner.nextLine();
             if (jatko.isEmpty()) {
                 return;
             }
@@ -209,6 +211,5 @@ public class TextUI {
             }
 
         }
-
     }
 }

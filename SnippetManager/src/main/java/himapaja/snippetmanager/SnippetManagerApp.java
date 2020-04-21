@@ -1,7 +1,7 @@
 package himapaja.snippetmanager;
 
-import himapaja.snippetmanager.Dao.SqlLanguageDao;
-import himapaja.snippetmanager.Dao.SqlSnippetDao;
+import himapaja.snippetmanager.dao.SqlLanguageDao;
+import himapaja.snippetmanager.dao.SqlSnippetDao;
 import himapaja.snippetmanager.domain.LanguageService;
 import himapaja.snippetmanager.domain.SnippetManager;
 import himapaja.snippetmanager.domain.SnippetService;

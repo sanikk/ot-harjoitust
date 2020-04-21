@@ -1,11 +1,12 @@
 package himapaja.snippetmanager.domain;
 
-import himapaja.snippetmanager.Dao.FileLanguageDao;
-import himapaja.snippetmanager.Dao.FileSnippetDao;
-import himapaja.snippetmanager.Dao.LanguageDao;
-import himapaja.snippetmanager.Dao.SqlLanguageDao;
-import himapaja.snippetmanager.Dao.SqlSnippetDao;
+import himapaja.snippetmanager.dao.FileLanguageDao;
+import himapaja.snippetmanager.dao.FileSnippetDao;
+import himapaja.snippetmanager.dao.LanguageDao;
+import himapaja.snippetmanager.dao.SqlLanguageDao;
+import himapaja.snippetmanager.dao.SqlSnippetDao;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
@@ -37,13 +38,12 @@ public class SnippetManager {
                 this.languageService = new LanguageService(new FileLanguageDao(languageFile));
 
                 String snippetFile = properties.getProperty("snippetFile");
-                this.snippetService = new SnippetService(new FileSnippetDao(snippetFile), this.languageService);
+                this.snippetService = new SnippetService(new FileSnippetDao(snippetFile, languageService), this.languageService);
 
-            } catch (Exception e) {
+            } catch (IOException e) {
                 System.out.println("Error reading config file:" + e.getMessage());
-                return;
             }
-        } else if(valinta.equals("sql")) {
+        } else if (valinta.equals("sql")) {
             this.languageService = new LanguageService(new SqlLanguageDao());
             this.snippetService = new SnippetService(new SqlSnippetDao(), languageService);
         }

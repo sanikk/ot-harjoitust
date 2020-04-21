@@ -1,4 +1,4 @@
-package himapaja.snippetmanager.Dao;
+package himapaja.snippetmanager.dao;
 
 import himapaja.snippetmanager.domain.Language;
 import java.util.List;

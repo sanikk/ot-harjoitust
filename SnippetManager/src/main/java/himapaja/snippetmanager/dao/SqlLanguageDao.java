@@ -1,4 +1,4 @@
-package himapaja.snippetmanager.Dao;
+package himapaja.snippetmanager.dao;
 
 import himapaja.snippetmanager.domain.Language;
 import java.sql.Connection;
@@ -42,7 +42,7 @@ public class SqlLanguageDao implements LanguageDao {
     public String idToString(int id) {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./snippetdb", "sa", "")) {
             ResultSet rs = conn.prepareStatement("SELECT * FROM Languages WHERE id=" + id).executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getString("name");
             }
             conn.close();

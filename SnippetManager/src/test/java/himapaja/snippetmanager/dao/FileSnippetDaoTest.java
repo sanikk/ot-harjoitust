@@ -1,6 +1,5 @@
 package himapaja.snippetmanager.dao;
 
-import himapaja.snippetmanager.Dao.FileSnippetDao;
 import himapaja.snippetmanager.domain.Snippet;
 import java.io.File;
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package himapaja.snippetmanager.Dao;
+package himapaja.snippetmanager.dao;
 
 import himapaja.snippetmanager.domain.Snippet;
 import java.sql.Connection;
@@ -13,6 +13,7 @@ public class SqlSnippetDao implements SnippetDao {
     // - TAGIT
     // - UPDATE
     // - DELETE
+    @Override
     public boolean create(Snippet snippet) {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./snippetdb", "sa", "")) {
             conn.prepareStatement("INSERT INTO Snippets (name, languageId, code) VALUES ('"
@@ -29,6 +30,7 @@ public class SqlSnippetDao implements SnippetDao {
         }
     }
 
+    @Override
     public List<Snippet> getAll() {
         List<Snippet> palautettava = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./snippetdb", "sa", "")) {
@@ -44,6 +46,7 @@ public class SqlSnippetDao implements SnippetDao {
         return palautettava;
     }
 
+    @Override
     public List<Snippet> getAll(int languageId) {
         List<Snippet> palautettava = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./snippetdb", "sa", "")) {
@@ -58,6 +61,7 @@ public class SqlSnippetDao implements SnippetDao {
         return palautettava;
     }
 
+    @Override
     public Snippet getById(int id) {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./snippetdb", "sa", "")) {
             //ResultSet rs = conn.prepareStatement("SELECT * FROM Snippets WHERE id = " + id + ";").executeQuery();
@@ -76,6 +80,7 @@ public class SqlSnippetDao implements SnippetDao {
 
     // tässä oletetaan nyt että nimi on uniikki.
     // joko pitää tehdä sille tarkistus, tai tehdä tästä listan palautus
+    @Override
     public Snippet getByName(String name) {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./snippetdb", "sa", "")) {
             ResultSet rs = conn.prepareStatement("SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets LEFT JOIN Languages ON Snippets.languageid = Languages.id WHERE Snippets.name = '" + name + "';").executeQuery();
@@ -100,17 +105,19 @@ public class SqlSnippetDao implements SnippetDao {
         return palautettava;
     }
 
+    @Override
     public boolean update(Snippet snippet) {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./snippetdb", "sa", "")) {
-
+            System.out.println("TODO");
         } catch (Exception e) {
         }
         return false;
     }
 
+    @Override
     public boolean delete(Snippet snippet) {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./snippetdb", "sa", "")) {
-
+            System.out.println("TODO");
         } catch (Exception e) {
         }
         return false;

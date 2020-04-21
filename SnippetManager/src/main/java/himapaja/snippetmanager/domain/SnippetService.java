@@ -1,6 +1,6 @@
 package himapaja.snippetmanager.domain;
 
-import himapaja.snippetmanager.Dao.SnippetDao;
+import himapaja.snippetmanager.dao.SnippetDao;
 import java.util.List;
 
 /**
