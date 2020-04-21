@@ -13,9 +13,9 @@ public interface LanguageDao {
     
     List<Language> getAll();
     
-    Language getByIndex(int index);
+    Language getById(int id);
     
-    int giveNextId();
+    //int giveNextId(); //file version sisäiseen käyttöön
     
     String idToString(int id);
     

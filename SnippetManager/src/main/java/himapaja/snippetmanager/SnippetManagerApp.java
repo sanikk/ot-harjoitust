@@ -1,6 +1,10 @@
 package himapaja.snippetmanager;
 
+import himapaja.snippetmanager.Dao.SqlLanguageDao;
+import himapaja.snippetmanager.Dao.SqlSnippetDao;
+import himapaja.snippetmanager.domain.LanguageService;
 import himapaja.snippetmanager.domain.SnippetManager;
+import himapaja.snippetmanager.domain.SnippetService;
 import himapaja.snippetmanager.ui.TestiUI;
 import himapaja.snippetmanager.ui.TextUI;
 import java.util.Scanner;
@@ -13,25 +17,14 @@ public class SnippetManagerApp {
 
     public static void main(String[] args) throws Exception {
         Scanner skanner = new Scanner(System.in);
-        SnippetManager snippetman = new SnippetManager();
-        TextUI kayttis = new TextUI(skanner, snippetman);
-        //TestiUI kayttis = new TestiUI(skanner, snippetman);
+        //file
+        //TestiUI kayttis = new TestiUI(skanner, new SnippetManager("file"));
+        //TextUI kayttis = new TextUI(skanner, new SnippetManager("file));
+
+        //sql
+        //TestiUI kayttis = new TestiUI(skanner, new SnippetManager("sql"));
+        TextUI kayttis = new TextUI(skanner, new SnippetManager("sql"));
+
         kayttis.startUI();
     }
-
-//        public static void main(String[] args) throws Exception {
-//            FileLanguageDao fad = new FileLanguageDao("testeri.txt");
-//            Language lang = new Language("testikieli");
-//            fad.create(lang);
-//            System.out.println(lang);
-//           
-//       }
-    
-//            public static void main(String[] args) throws Exception {
-//            FileSnippetDao sad = new FileSnippetDao("testeri.txt");
-//            Snippet snip = new Snippet("testisnippet", "leikkikoodi-on-tässä");
-//            sad.create(snip);
-//            System.out.println(snip);
-//           
-//       }
 }

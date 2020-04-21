@@ -7,12 +7,12 @@ import java.util.List;
  *
  * @author Samuli Nikkilä
  */
-public class HashTag {
+public class Tag {
     
     private String name;
     private List<Snippet> representatives;
     
-    public HashTag(String name) {
+    public Tag(String name) {
         this.name = name;
         this.representatives = new ArrayList<>();
     }

@@ -15,7 +15,7 @@ public interface SnippetDao {
     
     List<Snippet> getAll(int languageId);
     
-    Snippet findById(int id);
+    Snippet getById(int id);
     
     Snippet getByName(String name);
     

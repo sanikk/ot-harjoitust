@@ -12,12 +12,17 @@ Peruskäyttäjä jolla oikeudet lukea,hakea ja tallentaa pätkiä.
 ## Sovelluksen perustoiminnallisuus
 
 Sovellukseen tulee 
-* mahdollisuus valita kieli josta etsitään/johon tallennetaan koodinpätkiä *tehty*
-* mahdollisuus lukea ja tallentaa pätkiä *tehty*
-* etsintämahdollisuus (ainakin) "hashtageilla" *kesken*
-* yksinkertainen tietokanta. *tehty filedao* *tekemättä sql*
-* Ensin hotkey- ja valikkopohjainen toiminnallisuus, sovelluslogiikan toimiessa 
-sitten kevyt GUI viritelmä oheen(optional).
+(aiemmin toteutetut)
+* mahdollisuus valita kieli josta etsitään/johon tallennetaan koodinpätkiä
+* mahdollisuus lukea ja tallentaa pätkiä
+* ensin (teksti)valikkopohjainen toiminnallisuus
+* yksinkertainen tekstitiedosto-"tietokanta"
+(viikolle 5 tehdyt)
+* yksinkertainen sql tietokanta *TEHTY*
+* etsintämahdollisuus nimen osalla
+(tekemättä vielä)
+* etsintämahdollisuus tageilla
+* sovelluslogiikan toimiessa sitten kevyt GUI viritelmä oheen(optional).
 
 ## Mahdollisia jatkokehitysideoita
 

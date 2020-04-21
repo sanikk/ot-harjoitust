@@ -77,7 +77,7 @@ public class FileSnippetDao implements SnippetDao {
     
     // ETSINTÄ
     
-    public Snippet findById(int id) {
+    public Snippet getById(int id) {
         for(Snippet snippet: snippets) {
             if(snippet.getId() == id) {
                 return snippet;

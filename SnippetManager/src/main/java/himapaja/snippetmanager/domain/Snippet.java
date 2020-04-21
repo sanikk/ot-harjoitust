@@ -32,6 +32,14 @@ public class Snippet {
         this.code = code;
         this.tags = new ArrayList<>();
     }
+    public Snippet(int id, int languageId, String language, String name, String code) {
+        this.id = id;
+        this.languageId = languageId;
+        this.language = language;
+        this.name = name;
+        this.code = code;
+        this.tags = new ArrayList<>();
+    }
 
     public Snippet(int id, int languageId, String name, String code, List<String> tagit) {
         this.id = id;
@@ -109,8 +117,13 @@ public class Snippet {
         return this.tags;
     }
 
-    public String toString() {
+    //tämä on tällainen että sopisi näkymään. Uusi nimi @TextUi
+    public String textUIString() {
         return "Name: " + this.name + "\n     Code: " + this.code;
+    }
+    
+    public String toString() {
+        return "Id: " + id + ", name: " + name + ", language: " + language + "(id:" + languageId + "), code: " + code;
     }
 
     //for textUI
@@ -118,6 +131,7 @@ public class Snippet {
         return this.language + "," + this.name + "," + this.code;
     }
 
+    //for FileSnippetDao
     public String data() {
         return this.id + "-,-" + this.languageId + "-,-" + this.name + "-,-" + this.code + "-,-" + this.tags.toString();
     }

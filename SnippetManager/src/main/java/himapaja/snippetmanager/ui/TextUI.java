@@ -3,9 +3,13 @@ package himapaja.snippetmanager.ui;
 import himapaja.snippetmanager.domain.Language;
 import himapaja.snippetmanager.domain.Snippet;
 import himapaja.snippetmanager.domain.SnippetManager;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+/**
+ *
+ * @author Samuli Nikkilä
+ */
 
 public class TextUI {
 
@@ -116,7 +120,7 @@ public class TextUI {
         System.out.println("\nHere are the snippets in " + snippetMan.getLanguage());
         List<Snippet> lista = snippetMan.getSnippetList();
         for (int i = 0; i < lista.size(); i++) {
-            System.out.println(String.format("%3.3s", i) + ". " + lista.get(i));
+            System.out.println(String.format("%3.3s", i) + ". " + lista.get(i).textUIString());
             System.out.println("     Tags: " + lista.get(i).printTags() + "\n");
         }
         chooseASnippetFromList(lista);

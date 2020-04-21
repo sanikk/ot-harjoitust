@@ -3,6 +3,8 @@ package himapaja.snippetmanager.domain;
 import himapaja.snippetmanager.Dao.FileLanguageDao;
 import himapaja.snippetmanager.Dao.FileSnippetDao;
 import himapaja.snippetmanager.Dao.LanguageDao;
+import himapaja.snippetmanager.Dao.SqlLanguageDao;
+import himapaja.snippetmanager.Dao.SqlSnippetDao;
 import java.io.FileInputStream;
 import java.util.List;
 import java.util.Properties;
@@ -18,27 +20,33 @@ public class SnippetManager {
     private Language selected;
 
     //konstruktorit
+    //tää on testaukseen
     public SnippetManager(LanguageDao languageDao, SnippetService snippetService) {
         this.languageService = new LanguageService(languageDao);
         this.snippetService = snippetService;
     }
 
-    public SnippetManager() {
-        Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream("config.properties"));
+    //tää on käyttöön
+    public SnippetManager(String valinta) {
+        if (valinta.equals("file")) {
+            Properties properties = new Properties();
+            try {
+                properties.load(new FileInputStream("config.properties"));
 
-            String languageFile = properties.getProperty("languageFile");
-            this.languageService = new LanguageService(new FileLanguageDao(languageFile));
+                String languageFile = properties.getProperty("languageFile");
+                this.languageService = new LanguageService(new FileLanguageDao(languageFile));
 
-            String snippetFile = properties.getProperty("snippetFile");
-            this.snippetService = new SnippetService(new FileSnippetDao(snippetFile), this.languageService);
+                String snippetFile = properties.getProperty("snippetFile");
+                this.snippetService = new SnippetService(new FileSnippetDao(snippetFile), this.languageService);
 
-        } catch (Exception e) {
-            System.out.println("Error reading config file:" + e.getMessage());
-            return;
+            } catch (Exception e) {
+                System.out.println("Error reading config file:" + e.getMessage());
+                return;
+            }
+        } else if(valinta.equals("sql")) {
+            this.languageService = new LanguageService(new SqlLanguageDao());
+            this.snippetService = new SnippetService(new SqlSnippetDao(), languageService);
         }
-
     }
 
     //LANGUAGE METODIT:
@@ -70,7 +78,7 @@ public class SnippetManager {
         return snippetService.getAll(selected.getId());
 
     }
-    
+
     public List<Snippet> getSnippetLongList() {
         return snippetService.getAll();
     }
@@ -78,27 +86,27 @@ public class SnippetManager {
     public Snippet createSnippet(String name, String code) {
         return snippetService.createSnippet(selected.getId(), name, code);
     }
-    
+
     public Snippet createSnippet(String name, String code, List<String> tags) {
         return snippetService.createSnippet(selected.getId(), name, code, tags);
     }
-    
+
     public boolean deleteSnippet(Snippet snippet) {
         return snippetService.deleteSnippet(snippet);
     }
-    
+
     public boolean updateSnippet(Snippet snippet) {
         return snippetService.updateSnippet(snippet);
     }
-    
+
     public Snippet getById(int id) {
         return snippetService.getById(id);
     }
-    
+
     public Snippet getByName(String name) {
         return snippetService.getByName(name);
     }
-    
+
     public List<Snippet> findByTag(String tag) {
         return snippetService.findByTag(tag);
     }

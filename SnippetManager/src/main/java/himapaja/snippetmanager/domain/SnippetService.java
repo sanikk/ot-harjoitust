@@ -46,7 +46,7 @@ public class SnippetService {
     }
     
     public Snippet getById(int id) {
-        return snippetDao.findById(id);
+        return snippetDao.getById(id);
     }
     
     //tähän vielä partial matchit findiks

@@ -85,7 +85,7 @@ public class FileLanguageDao implements LanguageDao {
         return false;
     }
 
-    public Language getByIndex(int index) {
+    public Language getById(int index) {
         return languages.get(index);
     }
     
@@ -98,6 +98,7 @@ public class FileLanguageDao implements LanguageDao {
         return "";
     }
 
+    // luokan sisäiseen käyttöön, seuraava id
     public int giveNextId() {
         return nextId;
     }

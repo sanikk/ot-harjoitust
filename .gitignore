@@ -1,9 +1,12 @@
-/laskarit/viikko2/Unicafe/target
+laskarit/viikko2/Unicafe/target
 
-/laskarit/viikko2/Unicafe/nbproject/
+laskarit/viikko2/Unicafe/nbproject/
 SnippetManager/target
 SnippetManager/languages.txt
-/SnippetManager/nbproject/
+SnippetManager/nbproject/
 SnippetManager/testeri.txt
 SnippetManager/snippets.txt
 nbactions.xml
+snippetdb.mv.db
+snippetdb.trace.db
+h2-1.4.200.jar

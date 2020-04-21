@@ -1,6 +1,6 @@
 package himapaja.snippetmanager.Dao;
 
-import himapaja.snippetmanager.domain.HashTag;
+import himapaja.snippetmanager.domain.Tag;
 import java.util.List;
 
 /**
@@ -9,10 +9,10 @@ import java.util.List;
  */
 public interface HashtagDao {
     
-    HashTag create(HashTag hashtag) throws Exception;
+    Tag create(Tag hashtag) throws Exception;
     
-    List<HashTag> getAll();
+    List<Tag> getAll();
     
-    HashTag findByName(String name);
+    Tag findByName(String name);
     
 }
