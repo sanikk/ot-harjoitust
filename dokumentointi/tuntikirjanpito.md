@@ -8,9 +8,13 @@
  * 4.4.  5   Snippetit, yleistä säätöä
  * 7.4.  8   sql pohjat, snippettejä, filedao kuntoon, sqldao aloitus
  * 7.4.  1   yleistä ylläpitoa, dokumentaatio kuntoon
+ *21.4.  16  osittainen otsikon perusteella haku, sql, checkstyle(0 erroria, näillä määrityksillä), luokkakaavio kuvana, siistimistä siellä täällä, eriytin logiikan omaksi kokonaisuudekseen (sis palvelut renkeinä)
+
+Yhteensä: 41 tuntia? Suurin osa mennyt kyllä lukemiseen siitä mitä olen tekemässä.
+
  ### TODO
- * checkstyle
- * parempi luokkakaavio
- * sqldao
+ * checkstyle *tehty*
+ * parempi luokkakaavio *tehty*
+ * sqldao *tehty, paitsi delete ja update, kirjoitan ne samalla kun teen manageriin toiminnallisuuden*
 
 [takaisin README:hin](https://github.com/sanikk/ot-harjoitust/blob/master/README.md)
