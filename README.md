@@ -20,7 +20,7 @@ pitäisi toimia.
 
 ### Releaset
 
-Tässähän tämä on, v 0.1 !
+[SnippetManager v1.0](.)
 
 ## Komentorivitoiminnot
 
@@ -41,7 +41,7 @@ Testikattavuusraportti luodaan komennolla
 
 mvn test jacoco:report
 
-Kattavuusraporttia voi tarkastella selaimella avaamalla sillä tiedoston target/site/jacoco/index.html . Toistaiseksi kattavuus on aika pieni, testaan vain oleellisimmat asiat. Rivikattavuus ilman käyttöliittymää on nyt 22%.
+Kattavuusraporttia voi tarkastella selaimella avaamalla sillä tiedoston target/site/jacoco/index.html . Toistaiseksi kattavuus on aika pieni, testaan vain oleellisimmat asiat. Rivikattavuus ilman käyttöliittymää on nyt 33%(+11%).
 
 ### Suoritettavan jarin generointi
 
@@ -55,5 +55,9 @@ Ei ole vielä.
 
 ### Checkstyle
 
-Ei ole vielä.
+Tarkistus suoritetaan komennolla
+
+mvn jxr:jxr checkstyle:checkstyle
+
+Ei pitäisi olla virheitä, tosin TextUI on jätetty tarkistuksen ulkopuolelle. Siistin sen kyllä lähes virheettömäksi mutta muutama pidempi metodi siellä.
 
