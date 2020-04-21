@@ -1,6 +1,7 @@
 package himapaja.snippetmanager.dao;
 
 import himapaja.snippetmanager.domain.Language;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -8,6 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqlLanguageDao implements LanguageDao {
+
+    public SqlLanguageDao() {
+        if (!new File("snippetdb.mv.db").exists()) {
+            alustaTietokanta();
+        }
+    }
 
     @Override
     public boolean create(Language language) {
@@ -74,14 +81,14 @@ public class SqlLanguageDao implements LanguageDao {
     }
 
     public static void alustaTietokanta() {
-        String kielia = "('Java'" + "," + "'JavaScript')";
+
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./snippetdb", "sa", "")) {
             conn.prepareStatement("DROP TABLE Snippets IF EXISTS;").executeUpdate();
             conn.prepareStatement("DROP TABLE Languages IF EXISTS;").executeUpdate();
 
             conn.prepareStatement("CREATE TABLE Languages(id serial, name varchar(127));").executeUpdate();
             conn.prepareStatement("CREATE TABLE Snippets(id serial, languageid INTEGER, name varchar(127), code varchar(1023), FOREIGN KEY (languageId) REFERENCES Languages(id));").executeUpdate();
-
+            //String kielia = "('Java'" + "," + "'JavaScript')";
             //conn.prepareStatement("INSERT INTO Languages (nimi) VALUES " + kielia + ";").executeLargeUpdate();
             conn.close();
         } catch (Exception e) {

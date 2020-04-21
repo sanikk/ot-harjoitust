@@ -110,4 +110,8 @@ public class SnippetManager {
     public List<Snippet> findByTag(String tag) {
         return snippetService.findByTag(tag);
     }
+    
+    public List<Snippet> findByTitle(String title) {
+        return snippetService.findByTitle(title);
+    }
 }

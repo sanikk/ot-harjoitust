@@ -102,9 +102,8 @@ public class FileLanguageDao implements LanguageDao {
         nextId = 0;
     }
 
-    // luokan sisäiseen käyttöön, seuraava id
-    //oikeastaan turha kun on nyt sisäiseen
-//    public int giveNextId() {
-//        return nextId;
-//    }
+    //testeihin
+    public int giveNextId() {
+        return nextId;
+    }
 }

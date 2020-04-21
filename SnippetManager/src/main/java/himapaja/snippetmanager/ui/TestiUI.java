@@ -9,7 +9,7 @@ import java.util.Scanner;
 /**
  * Dev aikainen hiekkalaatikko
  *
- * @author karpo
+ * @author Samuli Nikkilä
  */
 public class TestiUI {
 
@@ -27,16 +27,17 @@ public class TestiUI {
         //snippetman.createLanguage("Java");
         //snippetman.createLanguage("JavaScript");
         //System.out.println(snippetman.getLanguages());
-        Language language = snippetman.getLanguages().get(0);
+        //Language language = snippetman.getLanguages().get(0);
 //        List<String> tags = new ArrayList<>();
 //        tags.add("testi");
 //        tags.add("tagi");
-        snippetman.setSelected(language);
+        //snippetman.setSelected(language);
 //        snippetman.createSnippet("nimi", "koodi", tags);
         //System.out.println(snippetman.getSnippetList());
-        //System.out.println(snippetman.getSnippetLongList());
+        System.out.println(snippetman.getSnippetLongList());
+        System.out.println(snippetman.findByTitle("mI"));
         //System.out.println(snippetman.getById(1));
-        System.out.println(snippetman.getByName("nimi"));
+        //System.out.println(snippetman.getByName("nimi"));
         //snippetman.getByName("nimi");
 
 

@@ -14,27 +14,7 @@ public class Snippet {
     private String language;
 
     
-    // KONSTRUKTOREJA LIIKAA, POISTA EKSTRAT
-    public Snippet() {
-        this.name = "";
-        this.code = "";
-        this.tags = new ArrayList<>();
-    }
-
-    public Snippet(int languageId, String name, String code) {
-        this.languageId = languageId;
-        this.name = name;
-        this.code = code;
-        this.tags = new ArrayList<>();
-    }
-
-    public Snippet(int id, int languageId, String name, String code) {
-        this.id = id;
-        this.languageId = languageId;
-        this.name = name;
-        this.code = code;
-        this.tags = new ArrayList<>();
-    }
+    // KONSTRUKTOREJA
 
     public Snippet(int id, int languageId, String language, String name, String code) {
         this.id = id;
@@ -45,9 +25,10 @@ public class Snippet {
         this.tags = new ArrayList<>();
     }
 
-    public Snippet(int id, int languageId, String name, String code, List<String> tagit) {
+    public Snippet(int id, int languageId, String language, String name, String code, List<String> tagit) {
         this.id = id;
         this.languageId = languageId;
+        this.language = language;
         this.name = name;
         this.code = code;
         this.tags = tagit;
@@ -67,7 +48,8 @@ public class Snippet {
         this.id = Integer.parseInt(sanat[0]);
         this.languageId = Integer.parseInt(sanat[1]);
         this.language = ls.idToString(languageId);
-        this.name = sanat[3];
+        this.name = sanat[2];
+        this.code = sanat[3];
         this.tags = new ArrayList<>();
         String[] palat = sanat[4].substring(1, sanat[4].length() - 1).split(", ");
         tags.addAll(Arrays.asList(palat));

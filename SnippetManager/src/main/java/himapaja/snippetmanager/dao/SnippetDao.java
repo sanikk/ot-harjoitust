@@ -21,10 +21,10 @@ public interface SnippetDao {
     
     List<Snippet> findByTag(String tag);
 
-    //int giveNextId(); //tätä ei varmaan tartte, käytetään vain daon sisällä
-    
     boolean update(Snippet snippet);
     
     boolean delete(Snippet snippet);
+    
+    List<Snippet> findByTitle(String title);
 
 }

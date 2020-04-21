@@ -18,7 +18,7 @@ import org.junit.Test;
 public class FileLanguageDaoTest {
 
     private FileLanguageDao fileLanguageDao; // class = FileLanguageDao, jota testataan
-    private String file = "testitiedosto.txt"; // given file = tiedosto jonka nimen FileLanguageDao saa syötteenä
+    private final String file = "testitiedosto.txt"; // given file = tiedosto jonka nimen FileLanguageDao saa syötteenä
 
     @Before
     public void setUp() {

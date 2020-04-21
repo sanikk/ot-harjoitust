@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -43,7 +45,7 @@ public class FileSnippetDao implements SnippetDao {
                         snippets.add(new Snippet(fileReader.nextLine(), ls));
                     }
                 }
-            } catch (FileNotFoundException | NumberFormatException e) {
+            } catch (Exception e) {
                 System.out.println("Error reading snippets file " + file + ":" + e.getMessage());
             }
         }
@@ -89,6 +91,11 @@ public class FileSnippetDao implements SnippetDao {
             }
         }
         return null;
+    }
+    
+    public List<Snippet> findByTitle(String title) {
+        List<Snippet> palautettava = new ArrayList<>();
+        return palautettava;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package himapaja.snippetmanager.domain;
 
 import himapaja.snippetmanager.dao.SnippetDao;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class SnippetService {
     }
 
     public Snippet createSnippet(int languageId, String name, String code) {
-        Snippet uusi = new Snippet(languageId, name, code);
+        Snippet uusi = new Snippet(languageId, name, code, new ArrayList<>());
         snippetDao.create(uusi);
         return uusi;
     }
@@ -49,7 +50,10 @@ public class SnippetService {
         return snippetDao.getById(id);
     }
     
-    //tähän vielä partial matchit findiks
+    public List<Snippet> findByTitle(String title) {
+        return snippetDao.findByTitle(title);
+    }
+    
     public Snippet getByName(String name) {
         return snippetDao.getByName(name);
     }

@@ -22,7 +22,7 @@ public class TextUI {
 
     public void startUI() {
         boolean running = true;
-        System.out.println("\nThis is an ASCII-based UI for (at least) testing purposes"); // FIXME REMOVE THIS LINE
+        System.out.println("\nThis is an ASCII-based UI for (at least) testing purposes");
         System.out.println("\nWelcome to the SnippetManager of your dreams.");
         selectLanguage();
         while (running) {
@@ -35,10 +35,10 @@ public class TextUI {
                     addNewSnippet();
                     continue;
                 case 5:
-                    listSnippetsInLanguage();
+                    listSnippetsInLanguage(snippetMan.getSnippetList());
                     continue;
                 case 9:
-                    listAllSnippets();
+                    listAllSnippets(snippetMan.getSnippetLongList());
                     continue;
                 case 99:
                     selectLanguage();
@@ -115,38 +115,50 @@ public class TextUI {
         snippetMan.updateSnippet(uusi);
     }
 
-    private void listSnippetsInLanguage() {
+    private void listSnippetsInLanguage(List<Snippet> lista) {
         System.out.println("\nHere are the snippets in " + snippetMan.getLanguage());
-        List<Snippet> lista = snippetMan.getSnippetList();
         for (int i = 0; i < lista.size(); i++) {
             System.out.println(String.format("%3.3s", i) + ". " + lista.get(i).textUIString());
             System.out.println("     Tags: " + lista.get(i).printTags() + "\n");
         }
-        chooseASnippetFromList(lista);
+        chooseASnippetFromList(lista, "selected");
     }
 
-    private void listAllSnippets() {
+    private void listAllSnippets(List<Snippet> lista) {
         System.out.println("\nHere are all saved snippets:\n");
-        List<Snippet> lista = snippetMan.getSnippetLongList();
         for (int i = 0; i < lista.size(); i++) {
             System.out.println(String.format("%3.3s", i) + ". " + lista.get(i).longString());
             System.out.println("     Tags: " + lista.get(i).printTags() + "\n");
         }
-        chooseASnippetFromList(lista);
+        chooseASnippetFromList(lista, "all");
     }
 
-    private void chooseASnippetFromList(List<Snippet> lista) {
+    private void filterSnippetListByTitle(String mode) {
+        System.out.print("\nWhat string to filter titles by? ");
+        String vastaus = skanner.nextLine();
+        if(mode.equals("all")) {
+            listAllSnippets(snippetMan.findByTitle(vastaus));
+        } else if(mode.equals("selected")) {
+            listSnippetsInLanguage(snippetMan.findByTitle(vastaus));
+        }
+    }
+
+    private void chooseASnippetFromList(List<Snippet> lista, String mode) {
         Snippet valittu = null;
         while (valittu == null) {
+            System.out.println("\nFilter by tag with t. Filter by title with f.");
             System.out.println("\nChoose a snippet by number, or press enter to return to main menu:");
             String jatko = skanner.nextLine();
             if (jatko.isEmpty()) {
+                return;
+            } else if(jatko.equals("f")) {
+                filterSnippetListByTitle(mode);
                 return;
             }
             try {
                 valittu = lista.get(Integer.parseInt(jatko));
             } catch (NumberFormatException e) {
-                System.out.println("Virheellinen numerosyöte!");
+                System.out.println("Virheellinen numerosyöte! " + e.getMessage());
             }
         }
         oneSnippetView(valittu);
@@ -154,7 +166,7 @@ public class TextUI {
     }
 
     public void oneSnippetView(Snippet valittu) {
-        
+
         System.out.println(" 1 - Name: " + valittu.getName());
         System.out.println(" 2 - Language: " + valittu.getLanguage());
         System.out.println(" 3 - Code: " + valittu.getCode());
