@@ -2,9 +2,9 @@ package himapaja.snippetmanager;
 
 import himapaja.snippetmanager.dao.SqlLanguageDao;
 import himapaja.snippetmanager.dao.SqlSnippetDao;
-import himapaja.snippetmanager.domain.LanguageService;
-import himapaja.snippetmanager.domain.SnippetManager;
-import himapaja.snippetmanager.domain.SnippetService;
+import himapaja.snippetmanager.logic.LanguageService;
+import himapaja.snippetmanager.logic.SnippetManager;
+import himapaja.snippetmanager.logic.SnippetService;
 import himapaja.snippetmanager.ui.TestiUI;
 import himapaja.snippetmanager.ui.TextUI;
 import java.util.Scanner;

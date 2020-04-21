@@ -1,6 +1,8 @@
-package himapaja.snippetmanager.domain;
+package himapaja.snippetmanager.logic;
 
+import himapaja.snippetmanager.logic.LanguageService;
 import himapaja.snippetmanager.dao.SnippetDao;
+import himapaja.snippetmanager.domain.Snippet;
 import java.util.ArrayList;
 import java.util.List;
 

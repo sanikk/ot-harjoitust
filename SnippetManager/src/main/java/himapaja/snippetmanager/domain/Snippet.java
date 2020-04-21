@@ -1,5 +1,6 @@
 package himapaja.snippetmanager.domain;
 
+import himapaja.snippetmanager.logic.LanguageService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

@@ -1,6 +1,7 @@
-package himapaja.snippetmanager.domain;
+package himapaja.snippetmanager.logic;
 
 import himapaja.snippetmanager.dao.LanguageDao;
+import himapaja.snippetmanager.domain.Language;
 import java.util.List;
 
 /**
@@ -32,8 +33,8 @@ public class LanguageService {
         return languageDao.getAll();
     }
 
-    public Language getByIndex(int index) {
-        return languageDao.getById(index);
+    public Language getById(int id) {
+        return languageDao.getById(id);
     }
 
     public String idToString(int id) {

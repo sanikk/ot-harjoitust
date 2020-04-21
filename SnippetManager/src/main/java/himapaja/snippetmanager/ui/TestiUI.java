@@ -1,7 +1,7 @@
 package himapaja.snippetmanager.ui;
 
 import himapaja.snippetmanager.domain.Language;
-import himapaja.snippetmanager.domain.SnippetManager;
+import himapaja.snippetmanager.logic.SnippetManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

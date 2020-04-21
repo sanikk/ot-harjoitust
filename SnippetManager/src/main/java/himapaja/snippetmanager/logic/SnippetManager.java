@@ -1,10 +1,12 @@
-package himapaja.snippetmanager.domain;
+package himapaja.snippetmanager.logic;
 
 import himapaja.snippetmanager.dao.FileLanguageDao;
 import himapaja.snippetmanager.dao.FileSnippetDao;
 import himapaja.snippetmanager.dao.LanguageDao;
 import himapaja.snippetmanager.dao.SqlLanguageDao;
 import himapaja.snippetmanager.dao.SqlSnippetDao;
+import himapaja.snippetmanager.domain.Language;
+import himapaja.snippetmanager.domain.Snippet;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
