@@ -28,6 +28,8 @@ kaikista palveluista.
 Snippet on tietysti snippettien ilmentymä, Language ohjelmointikielten. Tagit on toistaiseksi toteutettu Stringeinä,
 mutta teen niille vielä oman luokan nopeuttamaan hakua tagien perusteella.
 
+![Luokkakaavio](./Class\ Diagram.png)
+
 ### Palvelukerros
 
 On ohjelmassa puhtaasti laajennettavuuden kannalta. Toistaiseksi hieman turha
