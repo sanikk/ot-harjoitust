@@ -122,7 +122,7 @@ public class Snippet {
     }
 
     public String toString() {
-        return "Id: " + id + ", name: " + name + ", language: " + language + "(id:" + languageId + "), code: " + code;
+        return "Id: " + id + ", name: " + name + ", language: " + language + "(id:" + languageId + "), code: " + code + ", tags: " + tags;
     }
 
     //for textUI

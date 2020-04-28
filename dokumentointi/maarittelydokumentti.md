@@ -17,14 +17,14 @@ Sovellukseen tulee
 * mahdollisuus lukea ja tallentaa pätkiä
 * ensin (teksti)valikkopohjainen toiminnallisuus
 * yksinkertainen tekstitiedosto-"tietokanta"
+* yksinkertainen sql tietokanta
 
-(viikolle 5 tehdyt)
-* yksinkertainen sql tietokanta *TEHTY*
-* etsintämahdollisuus nimen osalla *TEHTY*
 
-(tekemättä vielä)
-* etsintämahdollisuus tageilla
-* sovelluslogiikan toimiessa sitten kevyt GUI viritelmä oheen(optional).
+* etsintämahdollisuus nimen osalla *TEHTY LOPPUUN*
+* etsintämahdollisuus tageilla *TEHTY*
+
+
+* sovelluslogiikan toimiessa sitten kevyt GUI viritelmä oheen(optional). *KESKEN*
 
 ## Mahdollisia jatkokehitysideoita
 

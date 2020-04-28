@@ -92,18 +92,21 @@ public class SqlLanguageDao implements LanguageDao {
             return null;
         }
     }
-
-    private void alustaTietokanta() {
+    
+    public void alustaTietokanta() {
 
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbName, "sa", "")) {
             System.out.println("jdbc:h2:./" + dbName);
             System.out.println("Dropping tables...");
+            
+            conn.prepareStatement("DROP TABLE Tags IF EXISTS;").executeUpdate();
             conn.prepareStatement("DROP TABLE Snippets IF EXISTS;").executeUpdate();
             conn.prepareStatement("DROP TABLE Languages IF EXISTS;").executeUpdate();
             System.out.println("Creating new tables...");
             conn.prepareStatement("CREATE TABLE Languages(id serial, name varchar(127));").executeUpdate();
             conn.prepareStatement("CREATE TABLE Snippets(id serial, languageid INTEGER, name varchar(127), code varchar(1023), "
                     + "FOREIGN KEY (languageId) REFERENCES Languages(id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE Tags(id serial, name varchar(31), snippetid integer, FOREIGN KEY (snippetid) REFERENCES Snippets(id));").executeUpdate();
             //String kielia = "('Java'" + "," + "'JavaScript')";
             //conn.prepareStatement("INSERT INTO Languages (nimi) VALUES " + kielia + ";").executeLargeUpdate();
             conn.close();

@@ -11,20 +11,17 @@ public interface SnippetDao {
 
     boolean create(Snippet snippet);
 
-    List<Snippet> getAll();
-    
     List<Snippet> getAll(int languageId);
     
     Snippet getById(int id);
     
-    Snippet getByName(String name);
-    
-    List<Snippet> findByTag(String tag);
+    List<Snippet> findByTag(String tag, int langId);
 
     boolean update(Snippet snippet);
     
     boolean delete(Snippet snippet);
     
-    List<Snippet> findByTitle(String title);
+    List<Snippet> findByTitle(String title, int langId);
 
+    List<Snippet> findByTitleAndTag(String title, String tag, int langid);
 }

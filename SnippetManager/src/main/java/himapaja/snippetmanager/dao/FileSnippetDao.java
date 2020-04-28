@@ -57,7 +57,7 @@ public class FileSnippetDao implements SnippetDao {
     }
 
     public boolean save() {
-        //eli tiedoston alkuun tulee nextId arvo, sen jälkeen tallennetut pätkät muodossa: id, langId, nimi, koodi
+        //eli tiedoston alkuun tulee nextId arvo, sen jälkeen tallennetut pätkät muodossa: id, langId, nimi, koodi, (tagit?)
         try {
             FileWriter saver = new FileWriter(new File(file));
             saver.write(nextId + "\n");
@@ -83,28 +83,50 @@ public class FileSnippetDao implements SnippetDao {
         return null;
     }
 
-    @Override
-    public Snippet getByName(String name) {
-        for (Snippet snippet : snippets) {
-            if (snippet.getName().equals(name)) {
-                return snippet;
+//    @Override
+//    public Snippet getByName(String name) {
+//        for (Snippet snippet : snippets) {
+//            if (snippet.getName().equals(name)) {
+//                return snippet;
+//            }
+//        }
+//        return null;
+//    }
+    public List<Snippet> findByTitle(String title, int langId) {
+        List<Snippet> palautettava = new ArrayList<>();
+        for (Snippet snippet : this.snippets) {
+            if (snippet.getName().contains(title)) {
+                if (snippet.getLanguageId() == -1 || snippet.getLanguageId() == langId) {
+                    palautettava.add(snippet);
+                }
             }
         }
-        return null;
-    }
-    
-    public List<Snippet> findByTitle(String title) {
-        List<Snippet> palautettava = new ArrayList<>();
         return palautettava;
     }
 
     @Override
-    public List<Snippet> findByTag(String tag) {
+    public List<Snippet> findByTag(String tag, int langId) {
         List<Snippet> palautettava = new ArrayList<>();
         for (Snippet snippet : snippets) {
             List<String> tags = snippet.getTags();
             for (String tagInSnippet : tags) {
-                if (tagInSnippet.equals(tag)) {
+                if (tagInSnippet.equals(tag) && langId == -1 || langId == snippet.getLanguageId()) {
+                    palautettava.add(snippet);
+                }
+            }
+        }
+        return palautettava;
+    }
+    
+    public List<Snippet> findByTitleAndTag(String title, String tag, int langId) {
+        List<Snippet> palautettava = new ArrayList<>();
+        for (Snippet snippet : snippets) {
+            if(!snippet.getName().contains(title)) {
+                continue;
+            }
+            List<String> tags = snippet.getTags();
+            for (String tagInSnippet : tags) {
+                if (tagInSnippet.equals(tag) && langId == -1 || langId == snippet.getLanguageId()) {
                     palautettava.add(snippet);
                 }
             }
@@ -114,12 +136,10 @@ public class FileSnippetDao implements SnippetDao {
 
     // LISTAT
     @Override
-    public List<Snippet> getAll() {
-        return this.snippets;
-    }
-
-    @Override
     public List<Snippet> getAll(int id) {
+        if (id == -1) {
+            return this.snippets;
+        }
         List<Snippet> palautettava = new ArrayList<>();
         for (Snippet snippet : snippets) {
             if (snippet.getLanguageId() == id) {

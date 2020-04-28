@@ -36,10 +36,10 @@ public class SnippetManager {
             try {
                 properties.load(new FileInputStream("config.properties"));
 
-                String languageFile = properties.getProperty("languageFile");
+                String languageFile = properties.getProperty("languageFile").trim();
                 this.languageService = new LanguageService(new FileLanguageDao(languageFile));
 
-                String snippetFile = properties.getProperty("snippetFile");
+                String snippetFile = properties.getProperty("snippetFile").trim();
                 this.snippetService = new SnippetService(new FileSnippetDao(snippetFile, languageService), this.languageService);
 
             } catch (IOException e) {
@@ -105,15 +105,23 @@ public class SnippetManager {
         return snippetService.getById(id);
     }
 
-    public Snippet getByName(String name) {
-        return snippetService.getByName(name);
-    }
-
     public List<Snippet> findByTag(String tag) {
         return snippetService.findByTag(tag);
+    }
+    public List<Snippet> findByTagAndLanguage(String tag) {
+        return snippetService.findByTag(tag, this.getLanguageId());
     }
     
     public List<Snippet> findByTitle(String title) {
         return snippetService.findByTitle(title);
+    }
+    public List<Snippet> findByTitleAndLanguage(String title) {
+        return snippetService.findByTitle(title, this.getLanguageId());
+    }
+    public List<Snippet> findByTitleAndTag(String title, String tag) {
+        return snippetService.findByTitleAndTag(title, tag);
+    }
+    public List<Snippet> findByTitleAndTagAndLanguage(String title, String tag) {
+        return snippetService.findByTitleAndTag(title, tag, this.getLanguageId());
     }
 }

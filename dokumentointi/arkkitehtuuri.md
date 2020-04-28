@@ -6,17 +6,15 @@ Nelitasoinen rakenne, käyttöliittymä keskustelee domainin kanssa, joka
 välittää tiedot palvelukerrokselle, jolla on tiedot käytettävästä
 tallennusmuodosta.
 
-snippetmanager.ui
-
-snippetmanager.domain
-
-snippetmanager.service
-
-snippetmanager.dao
+Pakettijako:
+ui, domain, service, dao
+eli käyttöliittymä, luokat, palvelut ja tallennus
 
 ### Käyttöliittymä
 
-Tällä hetkellä pelkkä tekstikäyttöliittymä TextUI, joka jätetään cli-versioksi.
+Tällä hetkellä pelkkä tekstikäyttöliittymä TextUI, joka jätetään cli-versioksi. Vähän aloittelin GUI:ta, saan 
+jonkun vedoksen siitäkin ensi viikolla. Lisäksi on vielä TestUI kehityksen tarpeisiin. Viimeisin jää pois
+"valmiista tuotteesta."
 
 ### Sovelluslogiikka
 
@@ -25,19 +23,20 @@ kaikista palveluista.
 
 ### Luokat
 
-Snippet on tietysti snippettien ilmentymä, Language ohjelmointikielten. Tagit on toistaiseksi toteutettu Stringeinä,
-mutta teen niille vielä oman luokan nopeuttamaan hakua tagien perusteella.
+Snippet on tietysti snippettien ilmentymä, Language ohjelmointikielten. Tagit on toteutettu Stringeinä, en tee 
+niille omaa luokkaa.
 
 [Luokkakaavio](Classdiagram.png)
 
 ### Palvelukerros
 
-On ohjelmassa puhtaasti laajennettavuuden kannalta. Toistaiseksi hieman turha
-abstraktiokerros, samat voisi hoitaa ylempänä/alempana.
+On ohjelmassa puhtaasti laajennettavuuden kannalta. Toistaiseksi hieman turha abstraktiokerros, samat voisi 
+hoitaa ylempänä/alempana. Koitan käyttää tästä palveluita pohjana eräässä omassa projektissa, siksi ylimääräinen
+kerros.
 
 ### Tietojen tallennus
 
 Eri daot huolehtivat eri tallennusmuodoista. Valmiina tällä hetkellä 
-tiedostoon tallennus, teen vielä yhden sqlDao version.
+tiedostoon tallennus, ja h2-tietokantaan tallennus artisaani-sql-lauseilla.
 
 [takaisin README:hin](https://github.com/sanikk/ot-harjoitust/blob/master/README.md)
