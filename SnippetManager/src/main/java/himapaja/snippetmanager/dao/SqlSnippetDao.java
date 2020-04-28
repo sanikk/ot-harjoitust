@@ -57,17 +57,17 @@ public class SqlSnippetDao implements SnippetDao {
     @Override
     public List<Snippet> getAll(int languageId) {    //käytetään -1 = kaikki kielet
         List<Snippet> palautettava = new ArrayList<>();
-        String SQLause = "";
+        String sqLause = "";
         if (languageId == -1) {
-            SQLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
+            sqLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
                     + "LEFT JOIN Languages ON Snippets.languageid = Languages.id;";
         } else {
-            SQLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
+            sqLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
                     + "LEFT JOIN Languages ON Snippets.languageid = Languages.id WHERE Snippets.languageid = " + languageId + ";";
         }
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbname, "sa", "")) {
             Map<Integer, List<String>> tagit = tagMap(conn);
-            ResultSet rs = conn.prepareStatement(SQLause).executeQuery();
+            ResultSet rs = conn.prepareStatement(sqLause).executeQuery();
 
             while (rs.next()) {
                 palautettava.add(new Snippet(rs.getInt("id"), rs.getInt("languageid"), rs.getString("lname"), rs.getString("name"), rs.getString("code"),
@@ -104,16 +104,16 @@ public class SqlSnippetDao implements SnippetDao {
     @Override
     public List<Snippet> findByTitle(String title, int langId) {
         List<Snippet> palautettava = new ArrayList<>();
-        String SQLause = "";
+        String sqLause = "";
         if (langId == -1) {
-            SQLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
+            sqLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
                     + "LEFT JOIN Languages ON Snippets.languageid = Languages.id WHERE Snippets.name ILIKE '%" + title + "%';";
         } else {
-            SQLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
+            sqLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
                     + "LEFT JOIN Languages ON Snippets.languageid = Languages.id WHERE Snippets.languageid = " + langId + " AND Snippets.name ILIKE '%" + title + "%';";
         }
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbname, "sa", "")) {
-            ResultSet rs = conn.prepareStatement(SQLause).executeQuery();
+            ResultSet rs = conn.prepareStatement(sqLause).executeQuery();
             while (rs.next()) {
                 palautettava.add(new Snippet(rs.getInt("id"), rs.getInt("languageid"), rs.getString("lname"), rs.getString("name"), rs.getString("code")));
             }

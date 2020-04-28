@@ -76,9 +76,7 @@ public class SqlLanguageDao implements LanguageDao {
             ResultSet rs = conn.prepareStatement("SELECT "
                     + "id, name "
                     + "FROM "
-                    + "Languages "
-                    + "WHERE "
-                    + "id "
+                    + "Languages WHERE id "
                     + "= "
                     + id
                     + ";"

@@ -121,7 +121,7 @@ public class FileSnippetDao implements SnippetDao {
     public List<Snippet> findByTitleAndTag(String title, String tag, int langId) {
         List<Snippet> palautettava = new ArrayList<>();
         for (Snippet snippet : snippets) {
-            if(!snippet.getName().contains(title)) {
+            if (!snippet.getName().contains(title)) {
                 continue;
             }
             List<String> tags = snippet.getTags();
