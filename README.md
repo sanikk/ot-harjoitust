@@ -8,11 +8,11 @@ pohjainen.
 ### Riippuvuuksista
 
 Tässä vaiheessa sovellus edellyttää ainakin seuraavia: Java11, maven, testaukseen jacoco ja surefire(?), junit 4.12. Riippuvuudet ovat pom.xml:ssä, joten jos koneelta löytyy java11 ja maven,
-pitäisi toimia.
+pitäisi toimia. Jos aikaa jää, kokeilen vielä virtuaalityöasemalla uskallanko jättää javafx maven määritykset valmiiseen julkaisuun.
 
 ### Dokumentaatio
 
-* Käyttöohje (ei ole)
+* [Käyttöohje](https://github.com/sanikk/ot-harjoitust/blob/master/dokumentointi/kayttoohje.md)
 * [määrittelydokumentti](https://github.com/sanikk/ot-harjoitust/blob/master/dokumentointi/maarittelydokumentti.md)
 * [Arkkitehtuurikuvaus](https://github.com/sanikk/ot-harjoitust/blob/master/dokumentointi/arkkitehtuuri.md)
 * Testausdokumentti (ei ole)
@@ -35,13 +35,13 @@ Testit suoritetaan komennolla
 mvn test
 
 Tässä vaiheessa testataan: FileSnippetDao, FileLanguageDao, sekä luokkien Snippet ja Language antamia tulostuksia, Snippet luokasta lähinnä data() metodin antamaa suoraan tiedostoon tallennettavaa
-muotoa.
+muotoa. Nyt tietysti alkaa sql dao:jen testaaminen.
 
 Testikattavuusraportti luodaan komennolla
 
 mvn test jacoco:report
 
-Kattavuusraporttia voi tarkastella selaimella avaamalla sillä tiedoston target/site/jacoco/index.html . Toistaiseksi kattavuus on aika pieni, testaan vain oleellisimmat asiat. Rivikattavuus ilman käyttöliittymää on nyt 33%(+11%).
+Kattavuusraporttia voi tarkastella selaimella avaamalla sillä tiedoston target/site/jacoco/index.html . Toistaiseksi kattavuus on aika pieni, testaan vain oleellisimmat asiat.
 
 ### Suoritettavan jarin generointi
 
@@ -51,7 +51,7 @@ generoi hakemistoon target suoritettavan jar-tiedoston SnippetManager-1.0-SNAPSH
 
 ### JavaDoc
 
-Ei ole vielä.
+Toivottavasti aloitettu.
 
 ### Checkstyle
 
