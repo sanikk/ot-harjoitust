@@ -20,8 +20,8 @@ pitäisi toimia. Jos aikaa jää, kokeilen vielä virtuaalityöasemalla uskallan
 
 ### Releaset
 
-[SnippetManager v1.0](https://github.com/sanikk/ot-harjoitust/releases/tag/Viikko5) eli viikon 5 tämä
-[Viikon 6 release](https://github.com/sanikk/ot-harjoitust/releases/tag/demo)
+* [SnippetManager v1.0](https://github.com/sanikk/ot-harjoitust/releases/tag/Viikko5) eli viikon 5 tämä
+* [Viikon 6 release](https://github.com/sanikk/ot-harjoitust/releases/tag/demo)
 
 ## Komentorivitoiminnot
 
