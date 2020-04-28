@@ -13,8 +13,8 @@ public class SqlLanguageDao implements LanguageDao {
     private String dbName;
 
     public SqlLanguageDao() {
-        dbName = "snippetdb.mv.db";
-        if (!new File(dbName).exists()) {
+        dbName = "snippetdb";
+        if (!new File(dbName + ".mv.db").exists()) {
             alustaTietokanta();
         }
     }

@@ -156,7 +156,11 @@ public class TextUI {
                 return;
             }
             try {
-                valittu = lista.get(Integer.parseInt(jatko));
+                int valittuLuku = Integer.parseInt(jatko);
+                if(valittuLuku < 0 || valittuLuku >= lista.size()) {
+                    continue;
+                }
+                valittu = lista.get(valittuLuku);
             } catch (NumberFormatException e) {
                 System.out.println("Virheellinen numerosyöte! " + e.getMessage());
             }
