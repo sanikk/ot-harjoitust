@@ -12,10 +12,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-/**
- *
- * @author Samuli Nikkilä
- */
 public class SnippetManager {
 
     private LanguageService languageService;
