@@ -4,6 +4,7 @@ import himapaja.snippetmanager.domain.Language;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,15 @@ public class SqlLanguageDao implements LanguageDao {
 
     @Override
     public boolean create(Language language) {
+        String generatedColumns[] = {"ID"};
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbName, "sa", "")) {
-            conn.prepareStatement("INSERT INTO Languages (name) VALUES ('" + language.getName() + "');").executeUpdate();
+            PreparedStatement paluuposti = conn.prepareStatement("INSERT INTO Languages (name) VALUES ('" + language.getName() + "');", generatedColumns);
+            paluuposti.executeUpdate();
+            ResultSet rs = paluuposti.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                language.setId(id);
+            }
             conn.close();
             return true;
         } catch (Exception e) {
@@ -73,11 +81,7 @@ public class SqlLanguageDao implements LanguageDao {
     @Override
     public Language getById(int id) {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbName, "sa", "")) {
-            ResultSet rs = conn.prepareStatement("SELECT "
-                    + "id, name "
-                    + "FROM "
-                    + "Languages WHERE id "
-                    + "= "
+            ResultSet rs = conn.prepareStatement("SELECT id, name FROM Languages WHERE id = "
                     + id
                     + ";"
             ).executeQuery();
@@ -86,7 +90,7 @@ public class SqlLanguageDao implements LanguageDao {
             conn.close();
             return palautettava;
         } catch (Exception e) {
-            System.out.println("Error :" + e.getMessage());
+            System.out.println("Error getting by id:" + e.getMessage());
             return null;
         }
     }
@@ -105,8 +109,6 @@ public class SqlLanguageDao implements LanguageDao {
             conn.prepareStatement("CREATE TABLE Snippets(id serial, languageid INTEGER, name varchar(127), code varchar(1023), "
                     + "FOREIGN KEY (languageId) REFERENCES Languages(id));").executeUpdate();
             conn.prepareStatement("CREATE TABLE Tags(id serial, name varchar(31), snippetid integer, FOREIGN KEY (snippetid) REFERENCES Snippets(id));").executeUpdate();
-            //String kielia = "('Java'" + "," + "'JavaScript')";
-            //conn.prepareStatement("INSERT INTO Languages (nimi) VALUES " + kielia + ";").executeLargeUpdate();
             conn.close();
             System.out.println("DONE!");
         } catch (Exception e) {

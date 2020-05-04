@@ -3,6 +3,7 @@ package himapaja.snippetmanager.ui;
 import himapaja.snippetmanager.domain.Language;
 import himapaja.snippetmanager.domain.Snippet;
 import himapaja.snippetmanager.logic.SnippetManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,7 +27,7 @@ public class TextUI {
         System.out.println("\nWelcome to the SnippetManager of your dreams.");
         selectLanguage();
         while (running) {
-            System.out.println("\nSelected language: " + snippetMan.getLanguage());
+            System.out.println("\nSelected language: " + snippetMan.getLanguageString());
             listActions();
             System.out.print("  ");
             int selectedAction = Integer.parseInt(skanner.nextLine());
@@ -59,7 +60,7 @@ public class TextUI {
 
             for (int j = 0; j < languages.size(); j++) {
                 System.out.print("  ");
-                if (snippetMan.getLanguage() != null && snippetMan.getLanguageId() == languages.get(j).getId()) {
+                if (snippetMan.getLanguageString() != null && snippetMan.getLanguageId() == languages.get(j).getId()) {
                     System.out.print("* ");
                 } else {
                     System.out.print("  ");
@@ -87,24 +88,34 @@ public class TextUI {
 
     private void listActions() {
         System.out.println("\nChoose an action:");
-        System.out.println("   1 - Add a snippet in " + snippetMan.getLanguage());
-        System.out.println("   5 - List all saved snippets in " + snippetMan.getLanguage());
+        System.out.println("   1 - Add a snippet in " + snippetMan.getLanguageString());
+        System.out.println("   5 - List all saved snippets in " + snippetMan.getLanguageString());
         System.out.println("   9 - List saved snippets in all languages");
         System.out.println("  99 - Change the current programming language");
         System.out.println("   0 - Exit SnippetManager");
     }
 
     private void addNewSnippet() {
-        System.out.println("\nYou are adding a snippet in " + snippetMan.getLanguage());
+        System.out.println("\nYou are adding a snippet in " + snippetMan.getLanguageString());
         System.out.println("\nPlease give a short description for your snippet:");
         String desc = skanner.nextLine();
-        System.out.println("Insert the code to be saved below");
-        String code = skanner.nextLine();
-        Snippet uusi = snippetMan.createSnippet(desc, code);
+        System.out.println("Insert the code to be saved below, empty line ends");
+        String rivi = skanner.nextLine();
+        StringBuilder code = new StringBuilder();
+        while(true) {
+            rivi = skanner.nextLine();
+            if(rivi.isEmpty()) {
+                break;
+            }
+            code.append(rivi);
+        }
+        if(code.length() == 0) {
+            System.out.println("No empty code allowed!");
+            return;
+        }
 
-        //JATKA TÄSTÄ TÄGEILLÄ
         System.out.println("Please give tags to make your code easier to find. Separate them by line changes. Empty line quits");
-        List<String> lista = uusi.getTags();
+        List<String> lista = new ArrayList<>();
         while (true) {
             String tagi = skanner.nextLine();
             if (tagi.equals("")) {
@@ -112,11 +123,11 @@ public class TextUI {
             }
             lista.add(tagi);
         }
-        snippetMan.updateSnippet(uusi);
+        Snippet uusi = snippetMan.createSnippet(desc, code.toString(), lista);
     }
 
     private void listSnippetsInLanguage(List<Snippet> lista) {
-        System.out.println("\nHere are the snippets in " + snippetMan.getLanguage());
+        System.out.println("\nHere are the snippets in " + snippetMan.getLanguageString());
         for (int i = 0; i < lista.size(); i++) {
             System.out.println(String.format("%3.3s", i) + ". " + lista.get(i).textUIString());
             System.out.println("     Tags: " + lista.get(i).printTags() + "\n");
@@ -172,7 +183,7 @@ public class TextUI {
     public void oneSnippetView(Snippet valittu) {
 
         System.out.println(" 1 - Name: " + valittu.getName());
-        System.out.println(" 2 - Language: " + valittu.getLanguage());
+        System.out.println(" 2 - Language: " + valittu.getLanguageString());
         System.out.println(" 3 - Code: " + valittu.getCode());
 
         System.out.print(" 4 - Tags: " + valittu.printTags());
@@ -204,7 +215,7 @@ public class TextUI {
                     valittu.setName(uusiNimi);
                     continue;
                 case 2:
-                    System.out.println("Current language: " + valittu.getLanguage());
+                    System.out.println("Current language: " + valittu.getLanguageString());
                     continue;
 
                 case 3:

@@ -12,32 +12,48 @@ public class Snippet {
     private String name;
     private String code;
     private List<String> tags;
-    private String language;
+    private Language language;
 
     
     // KONSTRUKTOREJA
 
-    public Snippet(int id, int languageId, String language, String name, String code) {
+    // getById, getAll
+    public Snippet(int id, int languageId, String name, String code, List<String> tags) {
         this.id = id;
         this.languageId = languageId;
-        this.language = language;
+        this.name = name;
+        this.code = code;
+        this.tags = tags;
+    }
+    // en löytänyt missä käytetään
+//    public Snippet(int id, Language language, String name, String code) {
+//        this.id = id;
+//        this.language = language;
+//        this.name = name;
+//        this.code = code;
+//        this.tags = new ArrayList<>();
+//    }
+    
+    //findByTitle - kun valitaan haetaanko yhteen vai moneen tageja
+    public Snippet(int id, int langId, String name, String code) {
+        this.id = id;
+        this.languageId = langId;
         this.name = name;
         this.code = code;
         this.tags = new ArrayList<>();
     }
 
-    public Snippet(int id, int languageId, String language, String name, String code, List<String> tagit) {
+    public Snippet(int id, Language language, String name, String code, List<String> tagit) {
         this.id = id;
-        this.languageId = languageId;
         this.language = language;
         this.name = name;
         this.code = code;
         this.tags = tagit;
     }
 
-    public Snippet(int languageId, String name, String code, List<String> tagit) {
+    public Snippet(Language language, String name, String code, List<String> tagit) {
         this.id = id;
-        this.languageId = languageId;
+        this.language = language;
         this.name = name;
         this.code = code;
         this.tags = tagit;
@@ -47,8 +63,7 @@ public class Snippet {
     public Snippet(String rivi, LanguageService ls) throws Exception {
         String[] sanat = rivi.split("-,-");
         this.id = Integer.parseInt(sanat[0]);
-        this.languageId = Integer.parseInt(sanat[1]);
-        this.language = ls.idToString(languageId);
+        this.language = ls.getById(Integer.parseInt(sanat[1]));
         this.name = sanat[2];
         this.code = sanat[3];
         this.tags = new ArrayList<>();
@@ -80,22 +95,6 @@ public class Snippet {
         this.name = name;
     }
 
-    public int getLanguageId() {
-        return this.languageId;
-    }
-
-    public void setLanguageId(int languageId) {
-        this.languageId = languageId;
-    }
-
-    public String getLanguage() {
-        return this.language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
     public boolean addTag(String hashtag) {
         if (!this.tags.contains(hashtag)) {
             this.tags.add(hashtag);
@@ -122,7 +121,7 @@ public class Snippet {
     }
 
     public String toString() {
-        return "Id: " + id + ", name: " + name + ", language: " + language + "(id:" + languageId + "), code: " + code + ", tags: " + tags;
+        return "Id: " + id + ", name: " + name + ", language: " + language.getName() + "(id:" + language.getId() + "), code: " + code + ", tags: " + tags;
     }
 
     //for textUI
@@ -138,6 +137,24 @@ public class Snippet {
     public String printTags() {
         String tuloste = this.tags.toString();
         return tuloste.substring(1, tuloste.length() - 1);
+    }
+    public int getLanguageId() {
+        if(language == null) {
+            return languageId;
+        }
+        return this.language.getId();
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
+    public String getLanguageString() {
+        return this.language.getName();
+    }
+
+    public Language getLanguage() {
+        return this.language;
     }
 
 }

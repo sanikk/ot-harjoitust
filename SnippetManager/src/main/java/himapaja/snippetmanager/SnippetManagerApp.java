@@ -1,11 +1,7 @@
 package himapaja.snippetmanager;
 
-import himapaja.snippetmanager.dao.SqlLanguageDao;
-import himapaja.snippetmanager.dao.SqlSnippetDao;
-import himapaja.snippetmanager.logic.LanguageService;
 import himapaja.snippetmanager.logic.SnippetManager;
-import himapaja.snippetmanager.logic.SnippetService;
-import himapaja.snippetmanager.ui.TestiUI;
+import himapaja.snippetmanager.ui.FxGUI;
 import himapaja.snippetmanager.ui.TextUI;
 import java.util.Scanner;
 
@@ -23,8 +19,10 @@ public class SnippetManagerApp {
 
         //sql
         //TestiUI kayttis = new TestiUI(skanner, new SnippetManager("sql"));
-        TextUI kayttis = new TextUI(skanner, new SnippetManager("sql"));
+        //TextUI kayttis = new TextUI(skanner, new SnippetManager("sql"));
+        
 
-        kayttis.startUI();
+        //kayttis.startUI();
+        FxGUI.launch(FxGUI.class);
     }
 }

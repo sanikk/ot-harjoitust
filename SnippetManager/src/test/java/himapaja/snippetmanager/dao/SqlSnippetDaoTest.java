@@ -66,13 +66,14 @@ public class SqlSnippetDaoTest {
     @Test
     public void sqlSnippetCreatedIncreasesGetAll() {
         this.ld = new SqlLanguageDao(tiedosto);
-        ld.create(new Language("Pori"));
+        Language uusi = new Language("Pori");
+        ld.create(uusi);
         this.sd = new SqlSnippetDao(tiedosto);
         assertEquals(tiedosto, sd.getDbname());
         List<String> lista = new ArrayList<>();
         lista.add("koira");
         lista.add("kissa");
-        sd.create(new Snippet(1, "testeri", "Koodii", lista));
+        sd.create(new Snippet(uusi, "testeri", "Koodii", lista));
         assertEquals(1, sd.getAll(-1).size());
         File poista = new File(tiedosto + ".mv.db");
         poista.delete();
@@ -83,12 +84,13 @@ public class SqlSnippetDaoTest {
     @Test
     public void sqlSnippetCreatesWithCorrectInfo() {
         this.ld = new SqlLanguageDao(tiedosto);
-        ld.create(new Language("Pori"));
+        Language uusi = new Language("Pori");
+        ld.create(uusi);
         this.sd = new SqlSnippetDao(tiedosto);
         List<String> lista = new ArrayList<>();
         lista.add("koira");
         lista.add("kissa");
-        Snippet s = new Snippet(1, "testeri", "Koodi", lista);
+        Snippet s = new Snippet(uusi, "testeri", "Koodi", lista);
         sd.create(s);
         s = sd.getAll(1).get(0);
         assertEquals(1, s.getLanguageId());
@@ -104,12 +106,13 @@ public class SqlSnippetDaoTest {
     @Test
     public void sqlSnippetFindByTitleFinds() {
         this.ld = new SqlLanguageDao(tiedosto);
-        ld.create(new Language("Pori"));
+        Language uusi = new Language("Pori");
+        ld.create(uusi);
         this.sd = new SqlSnippetDao(tiedosto);
         List<String> lista = new ArrayList<>();
         lista.add("koira");
         lista.add("kissa");
-        Snippet s = new Snippet(1, "testeri", "Koodi", lista);
+        Snippet s = new Snippet(uusi, "testeri", "Koodi", lista);
         sd.create(s);
         assertEquals(1,sd.findByTitle("testeri", -1).size());
         File poista = new File(tiedosto + ".mv.db");
@@ -120,15 +123,16 @@ public class SqlSnippetDaoTest {
     @Test
     public void sqlSnippetFindByTitleFindsRightAmountWithRightLanguage() {
         this.ld = new SqlLanguageDao(tiedosto);
-        ld.create(new Language("Pori"));
+        Language uusi = new Language("Pori");
+        ld.create(uusi);
         this.sd = new SqlSnippetDao(tiedosto);
         List<String> lista = new ArrayList<>();
         lista.add("koira");
         lista.add("kissa");
-        Snippet s = new Snippet(1, "testeri", "Koodi", lista);
+        Snippet s = new Snippet(uusi, "testeri", "Koodi", lista);
         sd.create(s);
-        sd.create(new Snippet(1, "testeri 2", "piip poop", new ArrayList<>()));
-        sd.create(new Snippet(1, "testeri 3", "piip poop", new ArrayList<>()));
+        sd.create(new Snippet(uusi, "testeri 2", "piip poop", new ArrayList<>()));
+        sd.create(new Snippet(uusi, "testeri 3", "piip poop", new ArrayList<>()));
         assertEquals(3,sd.findByTitle("testeri", 1).size());
         File poista = new File(tiedosto + ".mv.db");
         poista.delete();
@@ -138,12 +142,13 @@ public class SqlSnippetDaoTest {
     @Test
     public void sqlSnippetFindByTitleFindsWithRightLanguage() {
         this.ld = new SqlLanguageDao(tiedosto);
-        ld.create(new Language("Pori"));
+        Language uusi = new Language("Pori");
+        ld.create(uusi);
         this.sd = new SqlSnippetDao(tiedosto);
         List<String> lista = new ArrayList<>();
         lista.add("koira");
         lista.add("kissa");
-        Snippet s = new Snippet(1, "testeri", "Koodi", lista);
+        Snippet s = new Snippet(uusi, "testeri", "Koodi", lista);
         sd.create(s);
         assertEquals(1,sd.findByTitle("testeri", 1).size());
         File poista = new File(tiedosto + ".mv.db");
@@ -154,12 +159,13 @@ public class SqlSnippetDaoTest {
     @Test
     public void sqlSnippetFindByTitleFindsNoneWithBadInfo() {
         this.ld = new SqlLanguageDao(tiedosto);
-        ld.create(new Language("Pori"));
+        Language uusi = new Language("Pori");
+        ld.create(uusi);
         this.sd = new SqlSnippetDao(tiedosto);
         List<String> lista = new ArrayList<>();
         lista.add("koira");
         lista.add("kissa");
-        Snippet s = new Snippet(1, "testeri", "Koodi", lista);
+        Snippet s = new Snippet(uusi, "testeri", "Koodi", lista);
         sd.create(s);
         assertEquals(0,sd.findByTitle("Koodi", -1).size());
         File poista = new File(tiedosto + ".mv.db");
@@ -170,12 +176,13 @@ public class SqlSnippetDaoTest {
     @Test
     public void sqlSnippetFindByTagFinds() {
         this.ld = new SqlLanguageDao(tiedosto);
-        ld.create(new Language("Pori"));
+        Language uusi = new Language("Pori");
+        ld.create(uusi);
         this.sd = new SqlSnippetDao(tiedosto);
         List<String> lista = new ArrayList<>();
         lista.add("koira");
         lista.add("kissa");
-        Snippet s = new Snippet(1, "testeri", "Koodi", lista);
+        Snippet s = new Snippet(uusi, "testeri", "Koodi", lista);
         sd.create(s);
         assertEquals(1,sd.findByTag("koira", -1).size());
         File poista = new File(tiedosto + ".mv.db");
@@ -186,17 +193,18 @@ public class SqlSnippetDaoTest {
     @Test
     public void sqlSnippetFindByTagFindsAllRightOnes() {
         this.ld = new SqlLanguageDao(tiedosto);
-        ld.create(new Language("Pori"));
+        Language uusi = new Language("Pori");
+        ld.create(uusi);
         this.sd = new SqlSnippetDao(tiedosto);
         List<String> lista = new ArrayList<>();
         lista.add("koira");
         lista.add("kissa");
-        Snippet s = new Snippet(1, "testeri", "Koodi", lista);
+        Snippet s = new Snippet(uusi, "testeri", "Koodi", lista);
         sd.create(s);
-        sd.create(new Snippet(1, "testeri 2", "piip poop", lista));
-        sd.create(new Snippet(1, "testeri 2", "piip poop", new ArrayList<>()));
-        sd.create(new Snippet(1, "testeri 3", "piip poop", lista));
-        sd.create(new Snippet(1, "testeri 4", "piip poop", lista));
+        sd.create(new Snippet(uusi, "testeri 2", "piip poop", lista));
+        sd.create(new Snippet(uusi, "testeri 2", "piip poop", new ArrayList<>()));
+        sd.create(new Snippet(uusi, "testeri 3", "piip poop", lista));
+        sd.create(new Snippet(uusi, "testeri 4", "piip poop", lista));
         assertEquals(4,sd.findByTag("koira", -1).size());
         File poista = new File(tiedosto + ".mv.db");
         poista.delete();
@@ -206,12 +214,13 @@ public class SqlSnippetDaoTest {
     @Test
     public void sqlSnippetFindByTagFindsNoneWithBadInfo() {
         this.ld = new SqlLanguageDao(tiedosto);
-        ld.create(new Language("Pori"));
+        Language uusi = new Language("Pori");
+        ld.create(uusi);
         this.sd = new SqlSnippetDao(tiedosto);
         List<String> lista = new ArrayList<>();
         lista.add("koira");
         lista.add("kissa");
-        Snippet s = new Snippet(1, "testeri", "Koodi", lista);
+        Snippet s = new Snippet(uusi, "testeri", "Koodi", lista);
         sd.create(s);
         assertEquals(0,sd.findByTag("marsu", -1).size());
         File poista = new File(tiedosto + ".mv.db");
@@ -222,14 +231,15 @@ public class SqlSnippetDaoTest {
     @Test
     public void sqlSnippetGetByIdFindsRight() {
         this.ld = new SqlLanguageDao(tiedosto);
-        ld.create(new Language("Pori"));
+        Language uusi = new Language("Pori");
+        ld.create(uusi);
         this.sd = new SqlSnippetDao(tiedosto);
         List<String> lista = new ArrayList<>();
         lista.add("koira");
         lista.add("kissa");
-        Snippet s = new Snippet(1, "testeri", "Koodi", lista);
+        Snippet s = new Snippet(uusi, "testeri", "Koodi", lista);
         sd.create(s);
-        sd.create(new Snippet(1, "turhake", "piip poop", new ArrayList<>()));
+        sd.create(new Snippet(uusi, "turhake", "piip poop", new ArrayList<>()));
         assertEquals("testeri",sd.getById(1).getName());
         File poista = new File(tiedosto + ".mv.db");
         poista.delete();
@@ -239,14 +249,15 @@ public class SqlSnippetDaoTest {
     @Test
     public void sqlSnippetFindByTitleAndTag() {
         this.ld = new SqlLanguageDao(tiedosto);
-        ld.create(new Language("Pori"));
+        Language uusi = new Language("Pori");
+        ld.create(uusi);
         this.sd = new SqlSnippetDao(tiedosto);
         List<String> lista = new ArrayList<>();
         lista.add("koira");
         lista.add("kissa");
-        Snippet s = new Snippet(1, "testeri", "Koodi", lista);
+        Snippet s = new Snippet(uusi, "testeri", "Koodi", lista);
         sd.create(s);
-        sd.create(new Snippet(1, "turhake", "piip poop", new ArrayList<>()));
+        sd.create(new Snippet(uusi, "turhake", "piip poop", new ArrayList<>()));
         assertEquals("testeri",sd.findByTitleAndTag("testeri", "koira", -1).get(0).getName());
         File poista = new File(tiedosto + ".mv.db");
         poista.delete();

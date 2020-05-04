@@ -14,15 +14,14 @@ import java.util.Map;
 public class SqlSnippetDao implements SnippetDao {
 
     //TEKEMÄTTÄ:
-    // - "uniikki nimi"-tarkistus ennen kuin luo uuden KTS getByName (oikeastaan ei enää tarvitse)
     // - UPDATE
     // - DELETE
-    //denormalisointi että on language string suoraan snippets:issä ilman joinia
     private String dbname;
 
     public SqlSnippetDao(String tiedosto) {
         this.dbname = tiedosto;
     }
+
     public SqlSnippetDao() {
         this.dbname = "snippetdb";
     }
@@ -40,6 +39,7 @@ public class SqlSnippetDao implements SnippetDao {
             ResultSet rs = paluuposti.getGeneratedKeys();
             if (rs.next()) {
                 int id = rs.getInt("id");
+                snippet.setId(id);
                 List<String> lista = snippet.getTags();
                 for (int i = 0; i < lista.size(); i++) {
                     conn.prepareStatement("INSERT INTO Tags (name, snippetid) VALUES ('" + lista.get(i) + "','" + id + "');").executeUpdate();
@@ -57,25 +57,21 @@ public class SqlSnippetDao implements SnippetDao {
     @Override
     public List<Snippet> getAll(int languageId) {    //käytetään -1 = kaikki kielet
         List<Snippet> palautettava = new ArrayList<>();
-        String sqLause = "";
-        if (languageId == -1) {
-            sqLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
-                    + "LEFT JOIN Languages ON Snippets.languageid = Languages.id;";
-        } else {
-            sqLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
-                    + "LEFT JOIN Languages ON Snippets.languageid = Languages.id WHERE Snippets.languageid = " + languageId + ";";
+        String sqLause = "SELECT id,languageid,name,code FROM Snippets";
+        if (languageId != -1) {
+            sqLause += " WHERE languageid = " + languageId;
         }
+        sqLause += ";";
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbname, "sa", "")) {
             Map<Integer, List<String>> tagit = tagMap(conn);
             ResultSet rs = conn.prepareStatement(sqLause).executeQuery();
-
             while (rs.next()) {
-                palautettava.add(new Snippet(rs.getInt("id"), rs.getInt("languageid"), rs.getString("lname"), rs.getString("name"), rs.getString("code"),
+                palautettava.add(new Snippet(rs.getInt("id"), rs.getInt("languageid"), rs.getString("name"), rs.getString("code"),
                         tagit.getOrDefault(rs.getInt("id"), new ArrayList<>())));
             }
             conn.close();
         } catch (Exception e) {
-            System.out.println("ERROR: " + e.getMessage());
+            System.out.println("ERROR in getAll: " + e.getMessage());
         }
         return palautettava;
     }
@@ -83,10 +79,10 @@ public class SqlSnippetDao implements SnippetDao {
     @Override
     public Snippet getById(int id) {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbname, "sa", "")) {
-            ResultSet rs = conn.prepareStatement("SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
-                    + "LEFT JOIN Languages ON Snippets.languageid = Languages.id WHERE Snippets.id = '" + id + "';").executeQuery();
+            ResultSet rs = conn.prepareStatement("SELECT id,languageid,name,code FROM Snippets "
+                    + "WHERE Snippets.id = '" + id + "';").executeQuery();
             if (rs.next()) {
-                Snippet snippet = new Snippet(rs.getInt("id"), rs.getInt("languageid"), rs.getString("lname"), rs.getString("name"), rs.getString("code"));
+                Snippet snippet = new Snippet(rs.getInt("id"), rs.getInt("languageid"), rs.getString("name"), rs.getString("code"));
                 snippet.setTags(tagOne(conn, id));
                 conn.close();
                 return snippet;
@@ -106,16 +102,16 @@ public class SqlSnippetDao implements SnippetDao {
         List<Snippet> palautettava = new ArrayList<>();
         String sqLause = "";
         if (langId == -1) {
-            sqLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
-                    + "LEFT JOIN Languages ON Snippets.languageid = Languages.id WHERE Snippets.name ILIKE '%" + title + "%';";
+            sqLause = "SELECT id,languageid,name,code FROM Snippets "
+                    + "WHERE name ILIKE '%" + title + "%';";
         } else {
-            sqLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
-                    + "LEFT JOIN Languages ON Snippets.languageid = Languages.id WHERE Snippets.languageid = " + langId + " AND Snippets.name ILIKE '%" + title + "%';";
+            sqLause = "SELECT id,languageid,name,code FROM Snippets "
+                    + "WHERE languageid = " + langId + " AND name ILIKE '%" + title + "%';";
         }
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbname, "sa", "")) {
             ResultSet rs = conn.prepareStatement(sqLause).executeQuery();
             while (rs.next()) {
-                palautettava.add(new Snippet(rs.getInt("id"), rs.getInt("languageid"), rs.getString("lname"), rs.getString("name"), rs.getString("code")));
+                palautettava.add(new Snippet(rs.getInt("id"), rs.getInt("languageid"), rs.getString("name"), rs.getString("code")));
             }
             if (palautettava.size() > 3) {
                 Map<Integer, List<String>> tagit = tagMap(conn);
@@ -140,17 +136,17 @@ public class SqlSnippetDao implements SnippetDao {
         List<Snippet> palautettava = new ArrayList<>();
         String SQLause = "";
         if (langId == -1) {
-            SQLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
-                    + "LEFT JOIN Languages ON Snippets.languageid = Languages.id WHERE Snippets.id IN (SELECT snippetid FROM Tags WHERE name ILIKE '%" + tag + "%');";
+            SQLause = "SELECT id,languageid,name,code FROM Snippets "
+                    + "WHERE id IN (SELECT snippetid FROM Tags WHERE name ILIKE '%" + tag + "%');";
 
         } else {
-            SQLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
-                    + "LEFT JOIN Languages ON Snippets.languageid = Languages.id WHERE Snippets.languageid = " + langId + " AND Snippets.id IN (SELECT snippetid FROM Tags WHERE name ILIKE '%" + tag + "%');";
+            SQLause = "SELECT id,languageid,name,code FROM Snippets "
+                    + "WHERE languageid = " + langId + " AND id IN (SELECT snippetid FROM Tags WHERE name ILIKE '%" + tag + "%');";
         }
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbname, "sa", "")) {
             ResultSet rs = conn.prepareStatement(SQLause).executeQuery();
             while (rs.next()) {
-                palautettava.add(new Snippet(rs.getInt("id"), rs.getInt("languageid"), rs.getString("lname"), rs.getString("name"), rs.getString("code")));
+                palautettava.add(new Snippet(rs.getInt("id"), rs.getInt("languageid"), rs.getString("name"), rs.getString("code")));
             }
             if (palautettava.size() > 3) {
                 Map<Integer, List<String>> tagit = tagMap(conn);
@@ -175,16 +171,16 @@ public class SqlSnippetDao implements SnippetDao {
         List<Snippet> palautettava = new ArrayList<>();
         String SQLause = "";
         if (langId == -1) {
-            SQLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
-                    + "LEFT JOIN Languages ON Snippets.languageid = Languages.id WHERE Snippets.name ILIKE '%" + etsittava + "%' AND Snippets.id IN (SELECT snippetid FROM Tags WHERE name ILIKE '%" + tagi + "%');";
+            SQLause = "SELECT id,languageid,name,code FROM Snippets "
+                    + "WHERE name ILIKE '%" + etsittava + "%' AND id IN (SELECT snippetid FROM Tags WHERE name ILIKE '%" + tagi + "%');";
         } else {
-            SQLause = "SELECT Snippets.id,languageid,Snippets.name,code,languages.name AS lname FROM Snippets "
-                    + "LEFT JOIN Languages ON Snippets.languageid = Languages.id WHERE Snippets.languageid = " + langId + " AND Snippets.name ILIKE '%" + etsittava + "%' AND Snippets.id IN (SELECT snippetid FROM Tags WHERE name ILIKE '%" + tagi + "%');";
+            SQLause = "SELECT id,languageid,name,code FROM Snippets "
+                    + "WHERE languageid = " + langId + " AND name ILIKE '%" + etsittava + "%' AND id IN (SELECT snippetid FROM Tags WHERE name ILIKE '%" + tagi + "%');";
         }
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbname, "sa", "")) {
             ResultSet rs = conn.prepareStatement(SQLause).executeQuery();
             while (rs.next()) {
-                palautettava.add(new Snippet(rs.getInt("id"), rs.getInt("languageid"), rs.getString("lname"), rs.getString("name"), rs.getString("code")));
+                palautettava.add(new Snippet(rs.getInt("id"), rs.getInt("languageid"), rs.getString("name"), rs.getString("code")));
             }
             if (palautettava.size() > 3) {
                 Map<Integer, List<String>> tagit = tagMap(conn);
@@ -231,6 +227,7 @@ public class SqlSnippetDao implements SnippetDao {
         while (rs.next()) {
             palautettava.add(rs.getString("name"));
         }
+        System.out.println(palautettava);
         return palautettava;
     }
 
@@ -239,7 +236,10 @@ public class SqlSnippetDao implements SnippetDao {
     public boolean update(Snippet snippet) {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbname, "sa", "")) {
             System.out.println("TODO");
+            //conn.prepareStatement("");
         } catch (Exception e) {
+            System.out.println("ERROR updating snippet " + snippet);
+            System.out.println("Error was: " + e.getMessage());
         }
         return false;
     }
@@ -249,13 +249,16 @@ public class SqlSnippetDao implements SnippetDao {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbname, "sa", "")) {
             System.out.println("TODO");
         } catch (Exception e) {
+            System.out.println("ERROR deleting snippet " + snippet);
+            System.out.println("Error was: " + e.getMessage());
         }
         return false;
     }
-    
+
     public String getDbname() {
         return this.dbname;
     }
+    //jatkokehityksen tarpeisiin jätän tämän vain tähän
 //print row from result set:
 //int columnsNumber = rs.getMetaData().getColumnCount();
 //            for (int i = 1; i <= columnsNumber; i++) {

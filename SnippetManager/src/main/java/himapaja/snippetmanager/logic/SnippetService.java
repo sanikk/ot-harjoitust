@@ -1,10 +1,12 @@
 package himapaja.snippetmanager.logic;
 
-import himapaja.snippetmanager.logic.LanguageService;
 import himapaja.snippetmanager.dao.SnippetDao;
+import himapaja.snippetmanager.domain.Language;
 import himapaja.snippetmanager.domain.Snippet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -12,7 +14,8 @@ import java.util.List;
  */
 public class SnippetService {
 
-    //vähän turha väliluokka toistaiseksi mutta tulipahan tehtyä
+    //vähän turha väliluokka toistaiseksi, mutta jos käytän näitä suunnitelmien mukaan...
+    //tällä hetkellä täällä lähinnä lätkitään kieliä snippetteihin.
     private SnippetDao snippetDao;
     private LanguageService languageService;
 
@@ -20,26 +23,25 @@ public class SnippetService {
         this.snippetDao = snippetDao;
         this.languageService = languageService;
     }
-
-    public Snippet createSnippet(int languageId, String name, String code) {
-        Snippet uusi = new Snippet(languageId, name, code, new ArrayList<>());
-        snippetDao.create(uusi);
-        return uusi;
-    }
-    public Snippet createSnippet(int languageId, String name, String code, List<String> tags) {
-        Snippet uusi = new Snippet(languageId, name, code, tags);
+    
+    public Snippet createSnippet(Language language, String name, String code, List<String> tags) {
+        Snippet uusi = new Snippet(language, name, code, tags);
         snippetDao.create(uusi);
         return uusi;
     }
 
-    public List<Snippet> getAll(int languageId) {
-        return snippetDao.getAll(languageId);
+    public List<Snippet> getAll(Language language) {
+        List<Snippet> lista = snippetDao.getAll(language.getId());
+        for(Snippet snippet : lista) {
+            snippet.setLanguage(language);
+        }
+        return lista;
     }
 
     public List<Snippet> getAll() {
         List<Snippet> lista = snippetDao.getAll(-1);
         for (Snippet snippet : lista) {
-            snippet.setLanguage(languageService.idToString(snippet.getLanguageId()));
+            snippet.setLanguage(languageService.getById(snippet.getLanguageId()));
         }
         return lista;
     }
@@ -48,9 +50,9 @@ public class SnippetService {
         return snippetDao.delete(snippet);
     }
     
-    public Snippet getById(int id) {
-        return snippetDao.getById(id);
-    }
+//    public Snippet getById(int id) {
+//        return snippetDao.getById(id);
+//    }
     
     public List<Snippet> findByTitle(String title) {
         return snippetDao.findByTitle(title, -1);

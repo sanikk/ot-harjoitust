@@ -13,13 +13,14 @@ import java.util.List;
 import java.util.Properties;
 
 public class SnippetManager {
-
+    
+    private String dbmode = "";
     private LanguageService languageService;
     private SnippetService snippetService;
     private Language selected;
 
     //konstruktorit
-    //tää on testaukseen
+    //tää on testaukseen, muista asettaa toi save-dest...
     public SnippetManager(LanguageDao languageDao, SnippetService snippetService) {
         this.languageService = new LanguageService(languageDao);
         this.snippetService = snippetService;
@@ -27,6 +28,7 @@ public class SnippetManager {
 
     //tää on käyttöön
     public SnippetManager(String valinta) {
+        this.dbmode = valinta;
         if (valinta.equals("file")) {
             Properties properties = new Properties();
             try {
@@ -37,6 +39,7 @@ public class SnippetManager {
 
                 String snippetFile = properties.getProperty("snippetFile").trim();
                 this.snippetService = new SnippetService(new FileSnippetDao(snippetFile, languageService), this.languageService);
+                
 
             } catch (IOException e) {
                 System.out.println("Error reading config file:" + e.getMessage());
@@ -52,11 +55,15 @@ public class SnippetManager {
         this.selected = language;
     }
 
-    public String getLanguage() {
+    public String getLanguageString() {
         if (selected == null) {
-            return null;
+            return "NONE";
         }
         return this.selected.getName();
+    }
+    
+    public Language getLanguage() {
+        return this.selected;
     }
 
     public int getLanguageId() {
@@ -73,7 +80,7 @@ public class SnippetManager {
 
     // SNIPPET METODIT
     public List<Snippet> getSnippetList() {
-        return snippetService.getAll(selected.getId());
+        return snippetService.getAll(selected);
 
     }
 
@@ -81,12 +88,8 @@ public class SnippetManager {
         return snippetService.getAll();
     }
 
-    public Snippet createSnippet(String name, String code) {
-        return snippetService.createSnippet(selected.getId(), name, code);
-    }
-
     public Snippet createSnippet(String name, String code, List<String> tags) {
-        return snippetService.createSnippet(selected.getId(), name, code, tags);
+        return snippetService.createSnippet(selected, name, code, tags);
     }
 
     public boolean deleteSnippet(Snippet snippet) {
@@ -95,10 +98,6 @@ public class SnippetManager {
 
     public boolean updateSnippet(Snippet snippet) {
         return snippetService.updateSnippet(snippet);
-    }
-
-    public Snippet getById(int id) {
-        return snippetService.getById(id);
     }
 
     public List<Snippet> findByTag(String tag) {
@@ -119,5 +118,8 @@ public class SnippetManager {
     }
     public List<Snippet> findByTitleAndTagAndLanguage(String title, String tag) {
         return snippetService.findByTitleAndTag(title, tag, this.getLanguageId());
+    }
+    public String getDbmode() {
+        return this.dbmode;
     }
 }
