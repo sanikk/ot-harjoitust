@@ -1,14 +1,13 @@
 # SnippetManager
 (of your dreams)
 
-Sovelluksen avulla on mahdollista tallentaa ja katsella myöhemmin näppäriä koodinpätkiä mitä on tullut kirjoitettua. Sovellus on toteutettu yhdelle käyttäjälle (tässä vaiheessa), mutta koska
-tietokantana käytetään tekstitiedostoja, niiden jakaminen on hyvin helppoa muiden tekemillä työkaluilla (esim. USB-tikku, liitetiedosto, jne.) Tässä vaiheessa toteutus on puhtaasti teksti-
-pohjainen.
+Sovelluksen avulla on mahdollista tallentaa ja katsella myöhemmin näppäriä koodinpätkiä mitä on tullut kirjoitettua. Sovellus on toteutettu yhdelle käyttäjälle (tässä vaiheessa), ja se tallentaa
+siihen syötetyt pätkät tietokantaan.
 
 ### Riippuvuuksista
 
 Tässä vaiheessa sovellus edellyttää ainakin seuraavia: Java11, maven, testaukseen jacoco ja surefire(?), junit 4.12. Riippuvuudet ovat pom.xml:ssä, joten jos koneelta löytyy java11 ja maven,
-pitäisi toimia. Jos aikaa jää, kokeilen vielä virtuaalityöasemalla uskallanko jättää javafx maven määritykset valmiiseen julkaisuun.
+pitäisi toimia.
 
 ### Dokumentaatio
 
@@ -52,7 +51,7 @@ generoi hakemistoon target suoritettavan jar-tiedoston SnippetManager-1.0-SNAPSH
 
 ### JavaDoc
 
-Toivottavasti aloitettu.
+Luodaan komennolla mvn javadoc:javadoc
 
 ### Checkstyle
 
@@ -60,5 +59,5 @@ Tarkistus suoritetaan komennolla
 
 mvn jxr:jxr checkstyle:checkstyle
 
-Ei pitäisi olla virheitä, tosin TextUI on jätetty tarkistuksen ulkopuolelle. Siistin sen kyllä lähes virheettömäksi mutta muutama pidempi metodi siellä.
+Tarkistusta ei suoriteta käyttöliittymätoteutuksille, eli tekstipohjaiselle TextUI:lle, eikä graafiselle FxGUI:lle.
 

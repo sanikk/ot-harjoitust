@@ -4,7 +4,9 @@ import himapaja.snippetmanager.domain.Language;
 import himapaja.snippetmanager.domain.Snippet;
 import himapaja.snippetmanager.logic.SnippetManager;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -30,19 +32,40 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+/**
+ * Graafinen käyttöliittymä SnippetManagerille
+ *
+ * @author Samuli Nikkilä
+ */
 public class FxGUI extends Application {
 
     private SnippetManager sm;
     private BorderPane root;
+    private Map<String, Button> buttonMap = new HashMap<>();
+    private Map<String, TextField> textMap = new HashMap<>();
 
-    //tekee vasemman valikon napin (ilman toimintoa)
+    /**
+     * Nappitehdas luo napin annetulla tekstillä ja asettaa sen maksimileveyteen
+     *
+     * @param teksti Nappiin tuleva teksti
+     *
+     * @return Button palauttaa napin käytettäväksi muualla. Nappi vaatii vielä
+     * handlerin.
+     */
     private static Button luoNappi(String teksti) {
         Button palautettava = new Button(teksti);
         palautettava.setMaxWidth(Double.MAX_VALUE);
         return palautettava;
     }
 
-    //tekee pohjan keskinäkymälle
+    /**
+     * VBox tehdas luo sopivia pohjia keskinäkymälle. Ylimmäksi tulee otsikko
+     * (Text)
+     *
+     * @param teksti Otsikon osaksi asetettava teksti.
+     *
+     * @return VBox Pohjaksi valmiiksi pohjustettu VBox-kehikko.
+     */
     private static VBox pohja(String teksti) {
         VBox palautettava = new VBox();
         palautettava.setPadding(new Insets(25, 0, 10, 20));
@@ -54,13 +77,58 @@ public class FxGUI extends Application {
         return palautettava;
     }
 
+    /**
+     * Hakukenttä-tehdas joka palauttaa HBoxeja joissa on hakuun soveltuvat
+     * kentät ja nappi
+     *
+     * @return HBox Pohjustettu kehikko jossa on kenttä tageille ja toinen
+     * geneerisille etsintäsanoille.
+     */
+    private HBox hakutoiminnot() {
+        HBox palautettava = new HBox(10);
+        palautettava.setPadding(new Insets(25, 0, 10, 20));
+        palautettava.setSpacing(10);
+        Label tagLabel = new Label("Tag:");
+        TextField tagField = new TextField("type here");
+        Label titleLabel = new Label("Title:");
+        TextField titleField = new TextField("type here");
+        Button searchButton = new Button("Search");
+        textMap.put("searchTagField", tagField);
+        textMap.put("searchTitleField", titleField);
+        buttonMap.put("searchButton", searchButton);
+        palautettava.getChildren().addAll(tagLabel, tagField, titleLabel, titleField);
+        return palautettava;
+    }
+
+    /**
+     * Staattinen metodi jolla päivitetään select- ja browseLanguage-napit
+     * näyttämään Snippetmanagerissa aktiiviseksi valittu ohjelmointikieli.
+     *
+     * @param select Select-nappi
+     *
+     * @param browseLanguage listaa valitulla kielellä-nappi
+     *
+     * @param language Snippetmanagerissa valittu kieli
+     *
+     * @see
+     * himapaja.snippetmanager.logic.SnippetManager#setSelected(himapaja.snippetmanager.domain.Language)
+     */
+    private static void languageChange(Button select, Button browseLanguage, String language) {
+        select.setText("Language: " + language);
+        browseLanguage.setText("Browse in\n" + language);
+    }
+
+    /**
+     * Varsinaisen graafisen käyttöliittymän logiikka
+     *
+     * @param primaryStage tulee javafx launcherilta
+     */
     @Override
     public void start(Stage primaryStage) {
-
         this.sm = new SnippetManager("sql");
-        root = new BorderPane();
 
         //STAATTISET ELEMENTIT
+        root = new BorderPane();
         //otsikkorivi
         Text otsikko = new Text("SnippetManager v1.0, All rights reserved");
         otsikko.setTextAlignment(TextAlignment.RIGHT);
@@ -75,9 +143,12 @@ public class FxGUI extends Application {
         vasen.getChildren().add(intro);
         Button home = luoNappi("Home");
         Button select = luoNappi("Language: " + sm.getLanguageString());
+        buttonMap.put("select", select);
         Button browseLanguage = luoNappi("Browse in\n" + sm.getLanguageString());
+        buttonMap.put("browseLanguage", browseLanguage);
         Button browseAll = luoNappi("Browse ALL");
         Button addSnippet = luoNappi("Add snippet");
+        Button quit = luoNappi("Quit");
         home.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 root.setCenter(homepage());
@@ -85,38 +156,43 @@ public class FxGUI extends Application {
         });
         select.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                root.setCenter(selectLanguage(select, browseLanguage));
+                root.setCenter(selectLanguage());
             }
         });
         browseLanguage.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (sm.getLanguageString().equals("NONE")) {
-                    root.setCenter(selectLanguage(select, browseLanguage));
+                    root.setCenter(selectLanguage());
                 } else {
-                    root.setCenter(listView(sm.getSnippetList(), false));
+                    root.setCenter(listView(false, null));
                 }
             }
         });
         browseAll.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                root.setCenter(listView(sm.getSnippetLongList(), true));
+                root.setCenter(listView(true, null));
             }
         });
         addSnippet.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (sm.getLanguageString().equals("NONE")) {
-                    root.setCenter(selectLanguage(select, browseLanguage));
+                    root.setCenter(selectLanguage());
                 } else {
                     root.setCenter(addSnippet());
                 }
             }
         });
-        vasen.getChildren().addAll(home, select, browseLanguage, browseAll, addSnippet);
+        quit.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                System.exit(0);
+            }
+        });
+        vasen.getChildren().addAll(home, select, browseLanguage, browseAll, addSnippet, quit);
 
         //kehystä
         root.setTop(otsikko);
         root.setLeft(vasen);
-        root.setCenter(selectLanguage(select, browseLanguage));
+        root.setCenter(selectLanguage());
 
         Scene scene = new Scene(root, 1000, 600);
 
@@ -125,11 +201,26 @@ public class FxGUI extends Application {
         primaryStage.show();
     }
 
-    public Node homepage() {
+    /**
+     * Kotisivun palauttava (staattinen) metodi. Palauttaa vielä null.
+     *
+     * @return null Näkymän keskialue asetetaan tyhjäksi.
+     */
+    public static Node homepage() {
         return null;
     }
 
-    private Node selectLanguage(Button select, Button browseLanguage) {
+    /**
+     * Kielenvalinta-näkymä. Molemmat napit välitetään kartan avulla metodille
+     * joka vaihtaa niiden sisältämiä tekstejä heijastamaan valittua kieltä.
+     *
+     * @param select Select-nappi
+     *
+     * @param browseLanguage BrowseLanguage-nappi
+     *
+     * @return Node Palauttaa kielenvalinta-näkymän.
+     */
+    private Node selectLanguage() {
         VBox palautettava = pohja("language");
         ListView<Language> lv = new ListView<Language>();
         ObservableList<Language> items = FXCollections.observableArrayList(sm.getLanguages());
@@ -139,7 +230,7 @@ public class FxGUI extends Application {
             @Override
             public void changed(ObservableValue<? extends Language> ov, Language old_val, Language new_val) {
                 sm.setSelected(new_val);
-                languageChange(select, browseLanguage);
+                languageChange(buttonMap.get("select"), buttonMap.get("browseLanguage"), sm.getLanguageString());
             }
         }
         );
@@ -158,22 +249,46 @@ public class FxGUI extends Application {
         return palautettava;
     }
 
-    //for name and code in single snippet view
-    private static HBox singleSnippetRow(String name, String data) {
+    /**
+     * Staattinen metodi joka luo yhden_katkelman- ja luo_katkelma-näkymissä
+     * name- ja code-rivit alkuarvoilla parametrien mukaan
+     *
+     * @param name Arvon näytettävä nimi (name, code)
+     *
+     * @param data Muokattattavaan tekstikenttään aluksi tulevat tekstit
+     *
+     * @param key Avain jolla TextField tallennetaan textMap:piin
+     *
+     * @return HBox Laatikko joka sisältää ominaisuuden nimen ja muokattavan
+     * tekstikentän.
+     */
+    private HBox singleSnippetRow(String name, String data, String key) {
         HBox singleRow = new HBox();
         Label singleLabel = new Label(name + ":");
         TextField singleField = new TextField(data);
         singleField.setMaxWidth(Double.MAX_VALUE);
         singleRow.getChildren().addAll(singleLabel, singleField);
+        textMap.put(key, singleField);
         return singleRow;
     }
 
-    //for language drop box in single snippet view
-    private static HBox singleSnippetLanguage(ObservableList<Language> items, Language selected) {
+    /**
+     * Staattinen metodi joka luo yhden_katkelman- ja luo_katkelma-näkymissa
+     * language rivin alasvetovalikolla.
+     *
+     * @param comboBox ObservableList muotoisen listan sisältävä alasvetovalikko
+     * @param selected Language SnippetManagerissa aktiiviseksi valittu
+     * ohjelmointikieli
+     *
+     * @see
+     * himapaja.snippetmanager.logic.SnippetManager#setSelected(himapaja.snippetmanager.domain.Language)
+     *
+     * @return HBox Laatikko jossa Language-teksti ja alasvetovalikko
+     */
+    private static HBox singleSnippetLanguage(Language selected, ComboBox comboBox) {
         HBox singleRow = new HBox();
         Label languageLabel = new Label("Language:");
-        ComboBox comboBox = new ComboBox(items);
-        comboBox.setValue(selected.getName());
+        comboBox.setValue(selected);
         comboBox.setCellFactory(param -> new ListCell<Language>() {
             @Override
             protected void updateItem(Language language, boolean empty) {
@@ -190,40 +305,95 @@ public class FxGUI extends Application {
         return singleRow;
     }
 
-    private HBox singleSnippetButtons(List<Snippet> lista, boolean kaikki) {
+    /**
+     * Yhden_katkelman- ja luo_katkelma näkymiin sijoitettava palaa-nappi.
+     *
+     * @param kaikki boolean arvo joka määrittää näytetäänkö palaa-napista
+     * kaikkien kielten, vai valitun kielen listanäkymä
+     *
+     * @return Button Palauttaa napin jolla palataan listaus-näkymään
+     */
+    private HBox singleSnippetButtons(boolean kaikki) {
         HBox buttonRow = new HBox();
         Button back = new Button("BACK");
         back.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                if (!lista.isEmpty()) {
-                    root.setCenter(listView(sm.getSnippetList(), kaikki));
-                } else {
-                    root.setCenter(listView(lista, kaikki));
-                }
+                root.setCenter(listView(kaikki, null));
             }
         });
         Button saveChanges = new Button("Save Changes");
-        buttonRow.getChildren().addAll(back, saveChanges);
+        Button deleteSnippet = new Button("Delete Snippet");
+        buttonRow.getChildren().addAll(back, saveChanges, deleteSnippet);
+        buttonMap.put("backButton", back);
+        buttonMap.put("saveButton", saveChanges);
+        buttonMap.put("deleteSnippet", deleteSnippet);
         return buttonRow;
     }
 
-    //tän vois modata tekemään editin ja uuden
-    private Node single_snippet_view(Snippet naytetaan, List<Snippet> lista, boolean kaikki) {
+    /**
+     * Metodi joka luo yhden_katkelman- ja luo_katkelma-näkymät. Kaikki arvot
+     * editoitavissa.
+     *
+     * @param naytetaan Tällä hetkellä tarkasteltava katkelma. Tyhjä uusi
+     * katkelma valitulla kielellä kun tehdään kokonaan uutta katkelmaa.
+     * @param kaikki Boolean arvo joka kertoo näytetäänkö palaa-napista kaikkien
+     * kielten listaa, vai vain valitun kielen listaa.
+     * @return VBox Laatikko jossa on tallennetut/tallennettavat tiedot
+     */
+    private VBox singleSnippetView(Snippet naytetaan, boolean kaikki) {
         VBox palautettava = pohja("option");
-
-        TextField language = new TextField(naytetaan.getLanguageString());
-
+        palautettava.setPadding(new Insets(25, 0, 10, 20));
         TextField tags = new TextField(naytetaan.getTags().toString());
-        palautettava.getChildren().addAll(singleSnippetRow("Name", naytetaan.getName()),
-                singleSnippetLanguage(FXCollections.observableArrayList(sm.getLanguages()), naytetaan.getLanguage()),
-                singleSnippetRow("Code", naytetaan.getCode()),
-                tags,
-                singleSnippetButtons(lista, kaikki));
+        ComboBox comboBox = new ComboBox(FXCollections.observableArrayList(sm.getLanguages()));
+        palautettava.getChildren().addAll(
+                singleSnippetRow("Name", naytetaan.getName(), "nameField"), singleSnippetLanguage(naytetaan.getLanguage(), comboBox),
+                singleSnippetRow("Code", naytetaan.getCode(), "codeField"), tags, singleSnippetButtons(kaikki));
+        buttonMap.get("deleteSnippet").setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                sm.deleteSnippet(naytetaan);
+                root.setCenter(listView(kaikki, null));
+            }
+        });
+        buttonMap.get("saveButton").setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                String name = textMap.get("nameField").getText();
+                String code = textMap.get("codeField").getText();
+                Language language = (Language) comboBox.getValue();
+                if (naytetaan.getName().isEmpty() && !name.isEmpty() && !code.isEmpty() && language != null) {
+                    sm.createSnippet(language, name, code, new ArrayList<>());
+                    root.setCenter(listView(kaikki, null));
+                } else {
+                    if (!name.equals(naytetaan.getName()) || language != naytetaan.getLanguage() || !code.equals(naytetaan.getCode())) {
+                        naytetaan.setName(name);
+                        naytetaan.setLanguage(language);
+                        naytetaan.setCode(code);
+                        sm.updateSnippet(naytetaan);
+                        root.setCenter(listView(kaikki, null));
+                    }
+                }
+            }
+        }
+        );
         return palautettava;
     }
 
-    private Node listView(List<Snippet> lista, boolean kaikki) {
+    /**
+     * Lista-näkymä katkelmille. Boolean kaikki määrittää näytetäänkö kaikki vai
+     * vain tietyn kielen katkelmat. Katkelman valitsemalla sitä voi tarkastella
+     * lähemmin
+     *
+     * @param kaikki Boolean, jos false, tästä palataan tietyn kielen katkelmien
+     * listaus-näkymään, jos true, kaikkien kielten katkelmien listaan.
+     * @return VBox joka sisältää listan katkelmista.
+     */
+    private VBox listView(boolean kaikki, List<Snippet> lista) {
         VBox palautettava = pohja("snippet");
+        if (lista == null && kaikki) {
+            lista = sm.getSnippetLongList();
+        } else if (lista == null) {
+            lista = sm.getSnippetList();
+        }
+
         ListView<Snippet> lv = new ListView<Snippet>();
         ObservableList<Snippet> items = FXCollections.observableArrayList(lista);
         lv.setItems(items);
@@ -231,7 +401,7 @@ public class FxGUI extends Application {
                 new ChangeListener<Snippet>() {
             @Override
             public void changed(ObservableValue<? extends Snippet> ov, Snippet old_val, Snippet new_val) {
-                root.setCenter(single_snippet_view(new_val, lista, kaikki));
+                root.setCenter(singleSnippetView(new_val, kaikki));
             }
         }
         );
@@ -254,17 +424,19 @@ public class FxGUI extends Application {
         return palautettava;
     }
 
+    /**
+     * Parametrien välittäjä yhden_katkelman näkymälle kun sitä käytetään uuden
+     * katkelman luomiseen. Luo uuden tyhjän katkelman jota käytetään pohjana
+     * näkymässä.
+     *
+     * @return VBox singleSnippetView
+     */
     public Node addSnippet() {
-        return single_snippet_view(new Snippet(sm.getLanguage(), "", "", new ArrayList<>()), new ArrayList<>(), false);
+        return singleSnippetView(new Snippet(sm.getLanguage(), "", "", new ArrayList<>()), false);
     }
 
     public static void main(String[] args) {
-        launch(FxGUI.class);
+        launch(FxGUI.class
+        );
     }
-
-    private void languageChange(Button select, Button browseLanguage) {
-        select.setText("Language: " + sm.getLanguageString());
-        browseLanguage.setText("Browse in\n" + sm.getLanguageString());
-    }
-
 }

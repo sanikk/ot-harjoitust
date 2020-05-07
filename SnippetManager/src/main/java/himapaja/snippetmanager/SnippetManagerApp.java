@@ -20,9 +20,12 @@ public class SnippetManagerApp {
         //sql
         //TestiUI kayttis = new TestiUI(skanner, new SnippetManager("sql"));
         //TextUI kayttis = new TextUI(skanner, new SnippetManager("sql"));
-        
-
         //kayttis.startUI();
-        FxGUI.launch(FxGUI.class);
+        if (args.length > 0 && args[0].equals("text")) {
+            TextUI kayttis = new TextUI(skanner, new SnippetManager("sql"));
+            kayttis.startUI();
+        } else {
+            FxGUI.launch(FxGUI.class);
+        }
     }
 }

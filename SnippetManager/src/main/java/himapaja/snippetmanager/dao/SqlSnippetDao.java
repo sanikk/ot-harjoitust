@@ -11,21 +11,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Luokka h2 tietokannan käsittelyyn katkelmien osalta.
+ * 
+ * @author karpo
+ */
+
 public class SqlSnippetDao implements SnippetDao {
 
-    //TEKEMÄTTÄ:
-    // - UPDATE
-    // - DELETE
     private String dbname;
-
+/**
+ * Konstruktori testeille
+ * 
+ * @param tiedosto Tiedosto tiedosto.mv.db johon tallennetaan katkelmat.
+ */
     public SqlSnippetDao(String tiedosto) {
         this.dbname = tiedosto;
     }
-
+/**
+ * Konstruktori normaali käyttöön
+ */
     public SqlSnippetDao() {
         this.dbname = "snippetdb";
     }
-
+/**
+ * Metodi jolla kirjoitetaan uusi katkelma tietokantaan.
+ * 
+ * @param snippet katkelma joka halutaan kirjoittaa.
+ * 
+ * @return boolean Onnistuiko operaatio.
+ */
     @Override
     public boolean create(Snippet snippet) {
         String generatedColumns[] = {"ID"};
@@ -54,6 +69,13 @@ public class SqlSnippetDao implements SnippetDao {
         }
     }
 
+    /**
+     * Metodi jolla haetaan lista katkelmia tietokannasta
+     * 
+     * @param languageId Kielen tunniste jolle tallennettuja katkelmia haetaan. -1 tarkoittaa kaikkia kieliä
+     * 
+     * @return lista kielistä
+     */
     @Override
     public List<Snippet> getAll(int languageId) {    //käytetään -1 = kaikki kielet
         List<Snippet> palautettava = new ArrayList<>();
@@ -75,6 +97,13 @@ public class SqlSnippetDao implements SnippetDao {
         }
         return palautettava;
     }
+    /**
+     * Yhden katkelman haku tietokannasta id:n perusteella
+     * 
+     * @param id kokonaisluku-id jolla haetaan
+     * 
+     * @return Palautetaan katkelma jolla on kysytty id, tai null
+     */
 
     @Override
     public Snippet getById(int id) {
@@ -96,6 +125,16 @@ public class SqlSnippetDao implements SnippetDao {
         }
         return null;
     }
+    
+    /**
+     * Metodi jolla haetaan tietokannasta otsikon perusteella
+     * 
+     * @param title Merkkijono jonka on löydyttävä jokaisen listan jäsenen otsikosta
+     * 
+     * @param langId Millä kielellä etsitään, -1 tarkoittaa kaikilla
+     * 
+     * @return Palautetaan lista katkelmia jotka täyttävät parametrinä annetut ehdot
+     */
 
     @Override
     public List<Snippet> findByTitle(String title, int langId) {
@@ -131,6 +170,16 @@ public class SqlSnippetDao implements SnippetDao {
         }
         return palautettava;
     }
+    
+    /**
+     * Metodi jolla haetaan katkelmia tagien perusteella
+     * 
+     * @param tag Merkkijonolla ilmaistu ja tallennettu tag
+     * 
+     * @param langId Kieli jolla tallennettuja katkelmia etsitään
+     * 
+     * @return Palautetaan lista katkelmia joihin ehdot sopivat.
+     */
 
     public List<Snippet> findByTag(String tag, int langId) {
         List<Snippet> palautettava = new ArrayList<>();
@@ -167,6 +216,15 @@ public class SqlSnippetDao implements SnippetDao {
         return palautettava;
     }
 
+    /**
+     * Metodi jolla etsitään katkelmia otsikon ja tagin yhdistelmällä
+     * 
+     * @param etsittava Merkkijono jonka on löydyttävä otsikosta.
+     * 
+     * @param tagi Tagi joka on oltava tallennettu katkelmalle, jotta se pääsee listalle
+     * @param langId Kieli jolla etsitään
+     * @return Palautetaan lista katkelmia joihin annetut ehdot sopivat
+     */
     public List<Snippet> findByTitleAndTag(String etsittava, String tagi, int langId) {
         List<Snippet> palautettava = new ArrayList<>();
         String SQLause = "";
@@ -202,7 +260,17 @@ public class SqlSnippetDao implements SnippetDao {
     }
 
     // Pari metodia joilla kansoitetaan tags-listoja (kaikki ja yksi)
-    public Map<Integer, List<String>> tagMap(Connection conn) throws SQLException {
+    /**
+     * Metodi jolla tagit sijoitetaan Map-rakenteeseen listojen käyttöön
+     * 
+     * @param conn yhteys jonka metodi saa parametrinä
+     * 
+     * @return Palauttaa Map<Integer, List<String> tyyppisen listan, missä avaimena toimii katkelman id. Jokaiselle katkelmalle tulee valmis oma
+     * lista, mistä tagit on helppo sijoittaa oikean katkelman yhteyteen.
+     * 
+     * @throws SQLException  saattaa aiheuttaa sql-virheen, joka käsitellään kutsuvassa metodissa
+     */
+    private Map<Integer, List<String>> tagMap(Connection conn) throws SQLException {
         Map<Integer, List<String>> palautettava = new HashMap<>();
         ResultSet rs = conn.prepareStatement("SELECT * FROM Tags;").executeQuery();
         int edellinen = -1;
@@ -220,8 +288,18 @@ public class SqlSnippetDao implements SnippetDao {
         palautettava.put(edellinen, lista);
         return palautettava;
     }
-
-    public List<String> tagOne(Connection conn, int id) throws SQLException {
+/**
+ * Metodi jolla etsitään tietokannasta yksittäiselle katkelmalle sille kuuluvat tagit
+ * 
+ * @param conn Kutsuvalta metodilta saatava yhteys
+ * 
+ * @param id Katkelman id jolle tageja etsitään
+ * 
+ * @return Palauttaa listan Stringejä, jotka ovat samalla tageja
+ * 
+ * @throws SQLException SQL-virheet käsitellään tätä metodia kutsuvassa metodissa
+ */
+    private List<String> tagOne(Connection conn, int id) throws SQLException {
         List<String> palautettava = new ArrayList<>();
         ResultSet rs = conn.prepareStatement("SELECT * FROM Tags WHERE snippetid = " + id + ";").executeQuery();
         while (rs.next()) {
@@ -231,12 +309,23 @@ public class SqlSnippetDao implements SnippetDao {
         return palautettava;
     }
 
-    // LOPUT KESKEN
+    /**
+     * Metodi jolla päivitetään katkelman muuttuneet tiedot tietokantaan. Id tarkoitus pysyä samana.
+     * 
+     * @param snippet Katkelma jota päivitetään
+     * 
+     * @return palautusarvona boolean mahdollisen onnistumisen merkiksi.
+     */
     @Override
     public boolean update(Snippet snippet) {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbname, "sa", "")) {
-            System.out.println("TODO");
-            //conn.prepareStatement("");
+            conn.prepareStatement("UPDATE Snippets SET "
+                    + "name='" + snippet.getName() + "', "
+                    + "languageid=" + snippet.getLanguage().getId() + ","
+                    + "code='" + snippet.getCode() + "' "
+                    + "WHERE id=" + snippet.getId() + ";"
+            ).executeUpdate();
+            return true;
         } catch (Exception e) {
             System.out.println("ERROR updating snippet " + snippet);
             System.out.println("Error was: " + e.getMessage());
@@ -244,27 +333,29 @@ public class SqlSnippetDao implements SnippetDao {
         return false;
     }
 
+    /**
+     * Metodi jolla poistetaan katkelma tietokannasta
+     * 
+     * @param snippet Katkelma joka halutaan poistaa
+     * 
+     * @return palautetaan true jos poistaminen onnistui
+     */
     @Override
     public boolean delete(Snippet snippet) {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./" + dbname, "sa", "")) {
-            System.out.println("TODO");
+            conn.prepareStatement("DELETE FROM Snippets WHERE id=" + snippet.getId()).executeUpdate();
+            return true;
         } catch (Exception e) {
             System.out.println("ERROR deleting snippet " + snippet);
             System.out.println("Error was: " + e.getMessage());
         }
         return false;
     }
-
+/**
+ * Palautetaan tietokannan käyttämän tiedoston nimi ilman mv.db loppua
+ * @return 
+ */
     public String getDbname() {
         return this.dbname;
     }
-    //jatkokehityksen tarpeisiin jätän tämän vain tähän
-//print row from result set:
-//int columnsNumber = rs.getMetaData().getColumnCount();
-//            for (int i = 1; i <= columnsNumber; i++) {
-//                if (i > 1) {
-//                    System.out.print(",  ");
-//                }
-//                String columnValue = rs.getString(i);
-//                System.out.print(columnValue + " " + rs.getMetaData().getColumnName(i));
 }
