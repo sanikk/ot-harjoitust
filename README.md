@@ -14,7 +14,7 @@ pitäisi toimia.
 * [Käyttöohje](https://github.com/sanikk/ot-harjoitust/blob/master/dokumentointi/kayttoohje.md)
 * [määrittelydokumentti](https://github.com/sanikk/ot-harjoitust/blob/master/dokumentointi/maarittelydokumentti.md)
 * [Arkkitehtuurikuvaus](https://github.com/sanikk/ot-harjoitust/blob/master/dokumentointi/arkkitehtuuri.md)
-* Testausdokumentti (ei ole)
+* [Testausdokumentti](https://github.com/sanikk/ot-harjoitust/blob/master/dokumentointi/testaus.md)
 * [työaikakirjanpito](https://github.com/sanikk/ot-harjoitust/blob/master/dokumentointi/tuntikirjanpito.md)
 
 ### Releaset
