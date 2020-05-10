@@ -19,6 +19,8 @@ pitäisi toimia.
 
 ### Releaset
 
+* [Final release](https://github.com/sanikk/ot-harjoitust/release/tag/final)
+
 * [SnippetManager v1.0](https://github.com/sanikk/ot-harjoitust/releases/tag/Viikko5) eli viikon 5 tämä
 * [Viikon 6 release](https://github.com/sanikk/ot-harjoitust/releases/tag/demo)
 
@@ -52,6 +54,7 @@ generoi hakemistoon target suoritettavan jar-tiedoston SnippetManager-1.0-SNAPSH
 ### JavaDoc
 
 Luodaan komennolla mvn javadoc:javadoc
+Javadocit on tehty kolmelle luokalle.
 
 ### Checkstyle
 
@@ -60,4 +63,4 @@ Tarkistus suoritetaan komennolla
 mvn jxr:jxr checkstyle:checkstyle
 
 Tarkistusta ei suoriteta käyttöliittymätoteutuksille, eli tekstipohjaiselle TextUI:lle, eikä graafiselle FxGUI:lle.
-
+Tällä hetkellä SqlSnippetDao:ssa on 4 liian pitkää metodia.
