@@ -36,8 +36,7 @@ public class SqlLanguageDao implements LanguageDao {
             paluuposti.executeUpdate();
             ResultSet rs = paluuposti.getGeneratedKeys();
             if (rs.next()) {
-                int id = rs.getInt("id");
-                language.setId(id);
+                language.setId(rs.getInt("id"));
             }
             conn.close();
             return true;

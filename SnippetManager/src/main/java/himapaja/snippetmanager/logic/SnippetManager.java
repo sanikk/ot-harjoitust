@@ -178,6 +178,8 @@ public class SnippetManager {
     /**
      * Uuden katkelman luominen ja tallentaminen valittuun tietokantaan
      * (sql/file) valitulla kielellä
+     * 
+     * @param language Tallennettu ohjelmakieli johon katkelma liittyy
      *
      * @param name Nimi merkkijonona
      *
@@ -195,9 +197,12 @@ public class SnippetManager {
     public Snippet createSnippet(String name, String code, List<String> tags) {
         return snippetService.createSnippet(selected, name, code, tags);
     }
-    public Snippet createSnippet(Language language,String name, String code, List<String> tags) {
+    public Snippet createSnippet(Language language, String name, String code, List<String> tags) {
         return snippetService.createSnippet(language, name, code, tags);
     }
+//    public int createSnippetReturnId(Language language, String name, String code, List<String> tags) {
+//        return snippetService.createSnippet(language, name, code, tags).getId();
+//    }
 
     /** 
      * Poista annettu katkelma tietokannasta

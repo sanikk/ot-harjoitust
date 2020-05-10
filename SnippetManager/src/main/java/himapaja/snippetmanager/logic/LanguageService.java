@@ -16,10 +16,10 @@ public class LanguageService {
 
     private LanguageDao languageDao;
     private Map<Integer, Language> idToLanguage = null;
-    
+
     private void updateCache(List<Language> lista) {
         idToLanguage = new HashMap<>();
-        for(Language language : lista) {
+        for (Language language : lista) {
             idToLanguage.put(language.getId(), language);
         }
     }
@@ -45,19 +45,19 @@ public class LanguageService {
     }
 
     public Language getById(int id) {
-        if(idToLanguage != null) {
+        if (idToLanguage != null) {
             return idToLanguage.get(id);
         }
         return languageDao.getById(id);
     }
 
     public String idToString(int id) {
-        if(idToLanguage != null) {
+        if (idToLanguage != null) {
             return idToLanguage.get(id).getName();
         }
         return languageDao.idToString(id);
     }
-    
+
     public Map<Integer, Language> getMap() {
         return idToLanguage;
     }

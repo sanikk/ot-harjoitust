@@ -23,7 +23,7 @@ public class SnippetService {
         this.snippetDao = snippetDao;
         this.languageService = languageService;
     }
-    
+
     public Snippet createSnippet(Language language, String name, String code, List<String> tags) {
         Snippet uusi = new Snippet(language, name, code, tags);
         snippetDao.create(uusi);
@@ -32,7 +32,7 @@ public class SnippetService {
 
     public List<Snippet> getAll(Language language) {
         List<Snippet> lista = snippetDao.getAll(language.getId());
-        for(Snippet snippet : lista) {
+        for (Snippet snippet : lista) {
             snippet.setLanguage(language);
         }
         return lista;
@@ -45,35 +45,38 @@ public class SnippetService {
         }
         return lista;
     }
-    
+
     public boolean deleteSnippet(Snippet snippet) {
         return snippetDao.delete(snippet);
     }
-    
+
 //    public Snippet getById(int id) {
 //        return snippetDao.getById(id);
 //    }
-    
     public List<Snippet> findByTitle(String title) {
         return snippetDao.findByTitle(title, -1);
     }
+
     public List<Snippet> findByTitle(String title, int langId) {
         return snippetDao.findByTitle(title, langId);
     }
-    
+
     public List<Snippet> findByTag(String tag, int langId) {
         return snippetDao.findByTag(tag, langId);
     }
+
     public List<Snippet> findByTag(String tag) {
         return snippetDao.findByTag(tag, -1);
     }
-    public List<Snippet> findByTitleAndTag(String title,String tag) {
+
+    public List<Snippet> findByTitleAndTag(String title, String tag) {
         return snippetDao.findByTitleAndTag(title, tag, -1);
     }
+
     public List<Snippet> findByTitleAndTag(String title, String tag, int langId) {
         return snippetDao.findByTitleAndTag(title, tag, langId);
     }
-    
+
     public boolean updateSnippet(Snippet snippet) {
         return snippetDao.update(snippet);
     }

@@ -32,4 +32,34 @@ public class SqlLanguageDaoTest {
          File siivottava = new File(tiedosto + ".mv.db");
          siivottava.delete();
      }
+     
+     @Test
+     public void sqlLanguageGetByIdGetsExisting() {
+         SqlLanguageDao sd = new SqlLanguageDao(tiedosto);
+         Language uusi = new Language("Pori", 1);
+         sd.create(uusi);
+         assertEquals("Pori", sd.getById(1).getName());
+         assertEquals(1, sd.getById(1).getId());
+         File siivottava = new File(tiedosto + ".mv.db");
+         siivottava.delete();
+     }
+     @Test
+     public void sqlLanguageGetByIdReturnsNullIfNotFound() {
+         SqlLanguageDao sd = new SqlLanguageDao(tiedosto);
+         Language uusi = new Language("Pori", 1);
+         sd.create(uusi);
+         assertEquals(null, sd.getById(2));
+         File siivottava = new File(tiedosto + ".mv.db");
+         siivottava.delete();
+     }
+     
+     @Test
+     public void sqlLanguageIdToStringReturnsRightString() {
+         SqlLanguageDao sd = new SqlLanguageDao(tiedosto);
+         Language uusi = new Language("Pori", 1);
+         sd.create(uusi);
+         assertEquals("Pori", sd.idToString(1));
+         File siivottava = new File(tiedosto + ".mv.db");
+         siivottava.delete();
+     }
 }

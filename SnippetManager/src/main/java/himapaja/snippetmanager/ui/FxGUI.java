@@ -22,6 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -43,6 +44,7 @@ public class FxGUI extends Application {
     private BorderPane root;
     private Map<String, Button> buttonMap = new HashMap<>();
     private Map<String, TextField> textMap = new HashMap<>();
+    private TextArea codeTextArea;
 
     /**
      * Nappitehdas luo napin annetulla tekstillä ja asettaa sen maksimileveyteen
@@ -89,14 +91,14 @@ public class FxGUI extends Application {
         palautettava.setPadding(new Insets(25, 0, 10, 20));
         palautettava.setSpacing(10);
         Label tagLabel = new Label("Tag:");
-        TextField tagField = new TextField("type here");
+        TextField tagField = new TextField("");
         Label titleLabel = new Label("Title:");
-        TextField titleField = new TextField("type here");
+        TextField titleField = new TextField("");
         Button searchButton = new Button("Search");
         textMap.put("searchTagField", tagField);
         textMap.put("searchTitleField", titleField);
         buttonMap.put("searchButton", searchButton);
-        palautettava.getChildren().addAll(tagLabel, tagField, titleLabel, titleField);
+        palautettava.getChildren().addAll(tagLabel, tagField, titleLabel, titleField, searchButton);
         return palautettava;
     }
 
@@ -227,12 +229,12 @@ public class FxGUI extends Application {
         lv.setItems(items);
         lv.getSelectionModel().selectedItemProperty().addListener(
                 new ChangeListener<Language>() {
-            @Override
-            public void changed(ObservableValue<? extends Language> ov, Language old_val, Language new_val) {
-                sm.setSelected(new_val);
-                languageChange(buttonMap.get("select"), buttonMap.get("browseLanguage"), sm.getLanguageString());
-            }
-        }
+                    @Override
+                    public void changed(ObservableValue<? extends Language> ov, Language oldVal, Language newVal) {
+                        sm.setSelected(newVal);
+                        languageChange(buttonMap.get("select"), buttonMap.get("browseLanguage"), sm.getLanguageString());
+                    }
+                }
         );
         lv.setCellFactory(param -> new ListCell<Language>() {
             @Override
@@ -251,9 +253,9 @@ public class FxGUI extends Application {
 
     /**
      * Staattinen metodi joka luo yhden_katkelman- ja luo_katkelma-näkymissä
-     * name- ja code-rivit alkuarvoilla parametrien mukaan
+     * name-rivin alkuarvoilla parametrien mukaan
      *
-     * @param name Arvon näytettävä nimi (name, code)
+     * @param name Arvon näytettävä nimi (name)
      *
      * @param data Muokattattavaan tekstikenttään aluksi tulevat tekstit
      *
@@ -262,13 +264,31 @@ public class FxGUI extends Application {
      * @return HBox Laatikko joka sisältää ominaisuuden nimen ja muokattavan
      * tekstikentän.
      */
-    private HBox singleSnippetRow(String name, String data, String key) {
+    private HBox singleSnippetName(String name, String data, String key) {
         HBox singleRow = new HBox();
         Label singleLabel = new Label(name + ":");
         TextField singleField = new TextField(data);
-        singleField.setMaxWidth(Double.MAX_VALUE);
+        singleField.setMaxWidth(600);
+        singleField.setPrefWidth(600);
         singleRow.getChildren().addAll(singleLabel, singleField);
-        textMap.put(key, singleField);
+        textMap.put("nameField", singleField);
+        return singleRow;
+    }
+
+    /**
+     * Luo yhden katkelman näkymissä koodi-rivin. Muokattavissa.
+     *
+     * @param name Rivillä näkyvä nimi
+     * @param data Tekstilaatikossa aluksi näkyvä teksti
+     * @return
+     */
+    private HBox singleSnippetCode(String name, String data) {
+        HBox singleRow = new HBox();
+        Label singleLabel = new Label(name + ":");
+        codeTextArea = new TextArea(data);
+        codeTextArea.setMaxWidth(600);
+        codeTextArea.setPrefWidth(600);
+        singleRow.getChildren().addAll(singleLabel, codeTextArea);
         return singleRow;
     }
 
@@ -343,11 +363,11 @@ public class FxGUI extends Application {
     private VBox singleSnippetView(Snippet naytetaan, boolean kaikki) {
         VBox palautettava = pohja("option");
         palautettava.setPadding(new Insets(25, 0, 10, 20));
-        TextField tags = new TextField(naytetaan.getTags().toString());
+        TextField tags = new TextField(naytetaan.printTags());
         ComboBox comboBox = new ComboBox(FXCollections.observableArrayList(sm.getLanguages()));
         palautettava.getChildren().addAll(
-                singleSnippetRow("Name", naytetaan.getName(), "nameField"), singleSnippetLanguage(naytetaan.getLanguage(), comboBox),
-                singleSnippetRow("Code", naytetaan.getCode(), "codeField"), tags, singleSnippetButtons(kaikki));
+                singleSnippetName("Name", naytetaan.getName(), "nameField"), singleSnippetLanguage(naytetaan.getLanguage(), comboBox),
+                singleSnippetCode("Code", naytetaan.getCode()), tags, singleSnippetButtons(kaikki));
         buttonMap.get("deleteSnippet").setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 sm.deleteSnippet(naytetaan);
@@ -357,23 +377,28 @@ public class FxGUI extends Application {
         buttonMap.get("saveButton").setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 String name = textMap.get("nameField").getText();
-                String code = textMap.get("codeField").getText();
+                String code = codeTextArea.getText();
                 Language language = (Language) comboBox.getValue();
+                List<String> lista = new ArrayList<>();
+                String[] tagit = tags.getText().split(",");
+                for (String tag : tagit) {
+                    lista.add(tag.trim());
+                }
                 if (naytetaan.getName().isEmpty() && !name.isEmpty() && !code.isEmpty() && language != null) {
-                    sm.createSnippet(language, name, code, new ArrayList<>());
+                    sm.createSnippet(language, name, code, lista);
                     root.setCenter(listView(kaikki, null));
                 } else {
                     if (!name.equals(naytetaan.getName()) || language != naytetaan.getLanguage() || !code.equals(naytetaan.getCode())) {
                         naytetaan.setName(name);
                         naytetaan.setLanguage(language);
                         naytetaan.setCode(code);
+                        naytetaan.setTags(lista);
                         sm.updateSnippet(naytetaan);
                         root.setCenter(listView(kaikki, null));
                     }
                 }
             }
-        }
-        );
+        });
         return palautettava;
     }
 
@@ -393,17 +418,17 @@ public class FxGUI extends Application {
         } else if (lista == null) {
             lista = sm.getSnippetList();
         }
-
+        palautettava.getChildren().add(hakutoiminnot());
         ListView<Snippet> lv = new ListView<Snippet>();
         ObservableList<Snippet> items = FXCollections.observableArrayList(lista);
         lv.setItems(items);
         lv.getSelectionModel().selectedItemProperty().addListener(
                 new ChangeListener<Snippet>() {
-            @Override
-            public void changed(ObservableValue<? extends Snippet> ov, Snippet old_val, Snippet new_val) {
-                root.setCenter(singleSnippetView(new_val, kaikki));
-            }
-        }
+                    @Override
+                    public void changed(ObservableValue<? extends Snippet> ov, Snippet oldVal, Snippet newVal) {
+                        root.setCenter(singleSnippetView(newVal, kaikki));
+                    }
+                }
         );
         lv.setCellFactory(param -> new ListCell<Snippet>() {
             @Override
@@ -418,6 +443,40 @@ public class FxGUI extends Application {
                         setText("Name: " + snippet.getName() + "\nTags: " + snippet.printTags());
                     }
                 }
+            }
+        });
+        buttonMap.get("searchButton").setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                String tag = textMap.get("searchTagField").getText();
+                String title = textMap.get("searchTitleField").getText();
+                ObservableList<Snippet> newItems = null;
+                if (title.isEmpty() && tag.isEmpty()) {
+                    if (kaikki) {
+                        newItems = FXCollections.observableArrayList(sm.getSnippetLongList());
+                    } else {
+                        newItems = FXCollections.observableArrayList(sm.getSnippetList());
+                    }
+
+                } else if (title.isEmpty()) {
+                    if (kaikki) {
+                        newItems = FXCollections.observableArrayList(sm.findByTag(tag));
+                    } else {
+                        newItems = FXCollections.observableArrayList(sm.findByTagAndLanguage(tag));
+                    }
+                } else if (tag.isEmpty()) {
+                    if (kaikki) {
+                        newItems = FXCollections.observableArrayList(sm.findByTitle(title));
+                    } else {
+                        newItems = FXCollections.observableArrayList(sm.findByTitleAndLanguage(title));
+                    }
+                } else {
+                    if (kaikki) {
+                        newItems = FXCollections.observableArrayList(sm.findByTitleAndTag(title, tag));
+                    } else {
+                        newItems = FXCollections.observableArrayList(sm.findByTitleAndTagAndLanguage(title, tag));
+                    }
+                }
+                lv.setItems(newItems);
             }
         });
         palautettava.getChildren().add(lv);
@@ -436,7 +495,6 @@ public class FxGUI extends Application {
     }
 
     public static void main(String[] args) {
-        launch(FxGUI.class
-        );
+        launch(FxGUI.class);
     }
 }

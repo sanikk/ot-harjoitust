@@ -14,9 +14,7 @@ public class Snippet {
     private List<String> tags;
     private Language language;
 
-    
     // KONSTRUKTOREJA
-
     // getById, getAll
     public Snippet(int id, int languageId, String name, String code, List<String> tags) {
         this.id = id;
@@ -33,7 +31,7 @@ public class Snippet {
 //        this.code = code;
 //        this.tags = new ArrayList<>();
 //    }
-    
+
     //findByTitle - kun valitaan haetaanko yhteen vai moneen tageja
     public Snippet(int id, int langId, String name, String code) {
         this.id = id;
@@ -138,8 +136,9 @@ public class Snippet {
         String tuloste = this.tags.toString();
         return tuloste.substring(1, tuloste.length() - 1);
     }
+
     public int getLanguageId() {
-        if(language == null) {
+        if (language == null) {
             return languageId;
         }
         return this.language.getId();
