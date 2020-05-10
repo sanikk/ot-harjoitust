@@ -6,5 +6,5 @@
 
 <suppressions>
     <suppress files="himapaja.snippetmanager.ui.TextUI.java" checks="[a-zA-Z0-9]*"/>
-    <suppress files="himapaja.snippetmanager.ui.TestUI.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="himapaja.snippetmanager.ui.FxGUI.java" checks="[a-zA-Z0-9]*"/>
 </suppressions>
