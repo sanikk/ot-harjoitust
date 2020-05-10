@@ -12,9 +12,11 @@
 
 * 28.4.  12  otsikon, tagin, kielen perusteella haut, ja kaikki yhdistelmät näistä, testejä, kevyttä refaktorointia ja raskaampaa siistimistä, oli pari hölmöä bugia viime viikolla jotka korjasin
 
-Yhteensä: 53 tuntia.
+* 10.5.  20 dokumentaatiota, GUI, testejä
+
+Yhteensä: 73 tuntia.
 
  ### TODO
- * GUI (ruma, mutta tuleepahan tehtyä yksi javafx:kin)
+ * 10% lisää testikattavuutta
 
 [takaisin README:hin](https://github.com/sanikk/ot-harjoitust/blob/master/README.md)
